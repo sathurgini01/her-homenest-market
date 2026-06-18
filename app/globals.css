@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #163A3E;
+  --color-turmeric: #E3A23C;
+  --color-clay: #C1604A;
+  --color-betel: #41684B;
+  --color-paper: #F7F2E7;
+  --color-charcoal: #2B2622;
+  
+  --font-display: var(--font-newsreader), serif;
+  --font-sans: var(--font-public-sans), sans-serif;
+  --font-mono: var(--font-ibm-plex-mono), monospace;
+}
+
+body {
+  background-color: #F7F2E7; /* Light off-white base by default */
+  color: #2B2622; /* Warm Charcoal body text */
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom running stitch svg helper utilities */
+.stitch-border {
+  stroke-dasharray: 4, 4;
+}
+
+.stitch {
+  border-bottom: 2px dashed #163A3E;
+  opacity: 0.3;
+}
+
+.embroidered-badge {
+  border: 2px dashed #41684B;
+  border-radius: 50%;
+  padding: 4px;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.embroidered-badge::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 1px solid #41684B;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.card-tilt-1 {
+  transform: rotate(-2deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-tilt-1:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.card-tilt-2 {
+  transform: rotate(1.5deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-tilt-2:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.card-tilt-3 {
+  transform: rotate(-1deg);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-tilt-3:hover {
+  transform: rotate(0deg) scale(1.03);
+}
+
+.embroidered-edge {
+  box-shadow: 0 0 0 2px #E3A23C, 0 0 0 4px #F7F2E7, 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes drawStitchLine {
+  0% {
+    stroke-dashoffset: 40;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-stitch-draw {
+  stroke-dasharray: 6, 4;
+  animation: drawStitchLine 3s linear infinite;
+}
+

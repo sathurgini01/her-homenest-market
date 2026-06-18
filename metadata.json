@@ -1,0 +1,6 @@
+{
+  "name": "Her HomeNest Market",
+  "description": "Connecting Colombo-based homemaker women with customers looking for trusted, quality, women-led local goods & services.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
