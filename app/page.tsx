@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ArrowUpRight, Gift, Heart, MapPin, MessageCircle, Search, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowUpRight, Gift, Heart, MapPin, MessageCircle, Search, ShieldCheck, Sparkles, Star } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HomemakerCard } from "@/components/HomemakerCard";
@@ -100,7 +100,7 @@ export default function HomePage() {
 
       {/* 1. Customer-first hero */}
       <section
-        className="relative overflow-hidden border-b border-white/10 bg-[#3b1f32] pb-16 pt-14 text-paper sm:pb-20 sm:pt-16"
+        className="relative overflow-hidden bg-[#3b1f32] pb-28 pt-14 text-paper sm:pb-32 sm:pt-16"
         style={{
           backgroundImage:
             "linear-gradient(115deg,rgba(43,20,36,.98),rgba(67,31,55,.94) 52%,rgba(83,39,65,.88)),url('/topographic-pattern.svg')",
@@ -119,8 +119,13 @@ export default function HomePage() {
             </div>
 
             <div>
-              <h1 className="max-w-2xl font-display text-5xl font-medium leading-[1.02] tracking-tight text-white sm:text-6xl">
-                Find trusted homemakers near you in Colombo.
+              <h1 className="hero-title max-w-2xl font-display text-5xl font-medium leading-[1.02] tracking-tight text-white sm:text-6xl">
+                <span className="hero-title-line block">
+                  <span className="hero-title-highlight">Find trusted homemakers</span>
+                </span>
+                <span className="hero-title-line block">
+                  <span className="hero-title-highlight hero-title-highlight-delayed">near you in Colombo.</span>
+                </span>
               </h1>
               <p className="mt-5 max-w-xl text-sm leading-relaxed text-paper/80 sm:text-base">
                 Discover admin-verified women offering home-cooked food, baking, tailoring,
@@ -156,8 +161,8 @@ export default function HomePage() {
             <div className="absolute inset-x-12 bottom-4 h-24 rounded-[50%] bg-black/30 blur-2xl" />
             <div className="hero-portrait-fade absolute inset-y-0 left-1/2 z-10 w-[330px] -translate-x-1/2">
               <Image
-                src="/hero-homemaker-artisan-v4.png"
-                alt="Sri Lankan woman artisan presenting handmade gifts"
+                src="/hero-homemaker-saree-v5.png"
+                alt="Sri Lankan woman entrepreneur in an elegant handloom saree presenting handmade gifts"
                 fill
                 priority
                 sizes="330px"
@@ -216,67 +221,180 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 sm:h-32" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 160"
+            preserveAspectRatio="none"
+            className="absolute inset-0 h-full w-full"
+          >
+            <path
+              d="M0 88C170 134 304 20 507 61C711 102 800 151 1015 93C1190 46 1306 35 1440 62V160H0Z"
+              className="hero-wave-back"
+              fill="#B993B1"
+              fillOpacity="0.38"
+            />
+            <path
+              d="M0 105C181 151 331 42 536 78C739 113 842 157 1041 111C1205 73 1322 61 1440 82V160H0Z"
+              className="hero-wave-middle"
+              fill="#E8D7EC"
+              fillOpacity="0.82"
+            />
+            <path
+              d="M0 124C191 157 350 74 552 99C763 126 866 161 1062 127C1221 99 1337 91 1440 104V160H0Z"
+              fill="#FFFFFF"
+            />
+          </svg>
+        </div>
       </section>
 
       {/* 2. Trust signal immediately after the hero */}
-      <section className="border-b border-charcoal/5 bg-white py-5">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 sm:px-6 md:flex-row lg:px-8">
-          <div className="flex items-center gap-4">
-            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-turmeric bg-paper">
-              <ShieldCheck className="h-6 w-6 text-betel" />
-            </div>
-            <div>
-              <h2 className="font-display text-lg font-bold text-charcoal">
-                Profiles are reviewed before they appear publicly
-              </h2>
-              <p className="max-w-2xl text-xs leading-relaxed text-charcoal/60">
-                Our Colombo admin team checks identity, location and work samples. Always confirm
-                order details, allergens, pricing and collection or delivery directly with the seller.
-              </p>
+      <section className="relative z-20 border-b border-[#E7D9EA] bg-[linear-gradient(180deg,#FFFFFF_0%,#FCF8FD_100%)]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="relative mt-3 overflow-hidden rounded-3xl border border-[#D8BED8] bg-white/95 shadow-[0_22px_55px_rgba(59,31,50,0.14)] backdrop-blur-sm sm:mt-2">
+            <div className="pointer-events-none absolute -right-16 -top-20 h-52 w-52 rounded-full bg-[#EFDFF2] blur-3xl" />
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turmeric/70 to-transparent" />
+            <div className="grid items-center gap-7 p-6 sm:p-8 lg:grid-cols-[1.25fr_0.75fr]">
+              <div className="flex items-start gap-4 sm:gap-5">
+                <div className="relative flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-ink text-white shadow-[0_10px_24px_rgba(59,31,50,0.22)]">
+                  <ShieldCheck className="h-8 w-8" strokeWidth={1.7} />
+                  <span className="absolute -right-1.5 -top-1.5 flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-turmeric text-[10px] font-bold text-ink">
+                    ✓
+                  </span>
+                </div>
+                <div>
+                  <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-clay">
+                    Trust before contact
+                  </span>
+                  <h2 className="mt-1 font-display text-2xl font-bold text-charcoal sm:text-3xl">
+                    Profiles are reviewed before they appear publicly
+                  </h2>
+                  <p className="mt-2 max-w-2xl text-xs leading-6 text-charcoal/60 sm:text-sm">
+                    Our Colombo team reviews identity, location and real work samples. You still agree
+                    pricing, allergens, custom details and delivery directly with the homemaker.
+                  </p>
+                </div>
+              </div>
+
+              <div className="relative grid grid-cols-3 gap-2 rounded-2xl border border-[#E7D9EA] bg-[#FAF2FC] p-3 sm:gap-3">
+                {[
+                  ["01", "Identity", "Checked"],
+                  ["02", "Work", "Reviewed"],
+                  ["03", "Contact", "Direct"],
+                ].map(([number, label, status]) => (
+                  <div key={number} className="rounded-xl bg-white px-2 py-3 text-center shadow-sm">
+                    <span className="font-mono text-[9px] font-bold text-turmeric">{number}</span>
+                    <p className="mt-1 text-[11px] font-bold text-charcoal">{label}</p>
+                    <p className="font-mono text-[8px] uppercase tracking-wider text-charcoal/45">{status}</p>
+                  </div>
+                ))}
+                <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                  <VerifiedBadge className="px-3 py-1" showText />
+                </div>
+              </div>
             </div>
           </div>
-          <VerifiedBadge showText />
+          <div className="h-10" />
         </div>
       </section>
 
       {/* 3. Popular categories and complete marketplace taxonomy */}
-      <section id="categories" className="scroll-mt-24 border-b border-charcoal/5 py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
-            <div>
-              <span className="font-mono text-xs font-bold uppercase tracking-widest text-clay">
-                Popular categories
+      <section id="categories" className="relative scroll-mt-24 overflow-hidden border-b border-charcoal/5 py-20">
+        <div className="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-[#EAD8EE]/45 blur-3xl" />
+        <div className="pointer-events-none absolute -right-40 bottom-10 h-96 w-96 rounded-full bg-turmeric/10 blur-3xl" />
+
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mb-12 grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div className="max-w-3xl">
+              <span className="inline-flex items-center gap-2 rounded-full border border-[#D8BED8] bg-white/70 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-clay shadow-sm">
+                <Sparkles className="h-3.5 w-3.5 text-turmeric" />
+                Explore by category
               </span>
-              <h2 className="mt-1 font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
-                What are you looking for today?
+              <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+                What would you love
+                <span className="italic text-clay"> to discover today?</span>
               </h2>
+              <p className="mt-3 max-w-2xl text-sm leading-7 text-charcoal/60">
+                Browse food, services, lessons and handmade work from talented women across Colombo.
+              </p>
             </div>
-            <Link href="/explore" className="text-xs font-bold uppercase tracking-wider text-ink hover:text-clay">
-              Explore all homemakers →
+            <Link
+              href="/explore"
+              className="group inline-flex w-fit items-center gap-2 rounded-full border border-ink/15 bg-white px-5 py-3 text-xs font-bold uppercase tracking-wider text-ink shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#B993B1] hover:shadow-lg"
+            >
+              Explore all makers
+              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {CATEGORY_DETAILS.map((category) => (
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-2">
+            {CATEGORY_DETAILS.map((category, index) => (
               <Link
                 key={category.name}
                 href={`/category/${categoryToSlug(category.name)}`}
-                className="group rounded-2xl border border-[#E7D9EA] bg-[#FAF5FC] p-5 shadow-[0_4px_16px_rgba(59,31,50,0.06)] transition-all hover:-translate-y-1 hover:border-[#B993B1] hover:bg-[#F7EFFA] hover:shadow-[0_12px_28px_rgba(59,31,50,0.12)]"
+                className={`category-ribbon group relative overflow-hidden rounded-[2rem] border border-[#E3D1E6] bg-white/85 p-4 shadow-[0_10px_28px_rgba(59,31,50,0.06)] backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-[#B993B1] hover:shadow-[0_20px_42px_rgba(59,31,50,0.13)] sm:p-5 ${
+                  index % 2 === 1 ? "lg:translate-y-5 lg:hover:translate-y-3" : ""
+                } ${
+                  index === CATEGORY_DETAILS.length - 1
+                    ? "lg:col-span-2 lg:mx-auto lg:mt-5 lg:w-[49%]"
+                    : ""
+                }`}
+                style={{ animationDelay: `${index * 55}ms` }}
               >
-                <div className="flex items-start gap-4">
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#F0E5F3] text-2xl">
+                <div
+                  className={`pointer-events-none absolute inset-y-0 left-0 w-1.5 ${
+                    index % 4 === 0
+                      ? "bg-turmeric"
+                      : index % 4 === 1
+                        ? "bg-clay"
+                        : index % 4 === 2
+                          ? "bg-[#25D366]"
+                          : "bg-[#9C72A0]"
+                  }`}
+                />
+                <div className="pointer-events-none absolute -right-12 -top-12 h-32 w-32 rounded-full bg-[#F0E5F3] opacity-0 blur-2xl transition-opacity duration-300 group-hover:opacity-100" />
+
+                <div className="relative flex items-center gap-4 sm:gap-5">
+                  <span
+                    className={`flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 border-white text-3xl shadow-[0_8px_20px_rgba(59,31,50,0.12)] transition-all duration-300 group-hover:rotate-6 group-hover:scale-110 ${
+                      index % 4 === 0
+                        ? "bg-[#FFF2D9]"
+                        : index % 4 === 1
+                          ? "bg-[#F9E5E1]"
+                          : index % 4 === 2
+                            ? "bg-[#E5F8EC]"
+                            : "bg-[#F0E5F3]"
+                    }`}
+                  >
                     {category.icon}
                   </span>
-                  <div>
-                    <h3 className="font-display text-lg font-bold text-charcoal group-hover:text-ink">
-                      {category.name}
-                    </h3>
-                    <p className="mt-1 text-xs leading-relaxed text-charcoal/60">{category.summary}</p>
+
+                  <div className="min-w-0 flex-1">
+                    <div className="flex items-start justify-between gap-3">
+                      <div>
+                        <span className="font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-charcoal/35">
+                          Category {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <h3 className="mt-1 font-display text-xl font-bold text-charcoal transition-colors group-hover:text-ink sm:text-2xl">
+                          {category.name}
+                        </h3>
+                      </div>
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-[#E7D9EA] bg-[#FAF5FC] text-ink transition-all duration-300 group-hover:rotate-45 group-hover:border-ink group-hover:bg-ink group-hover:text-white">
+                        <ArrowUpRight className="h-4 w-4" />
+                      </span>
+                    </div>
+                    <p className="mt-2 line-clamp-2 text-xs leading-5 text-charcoal/60 sm:text-[13px]">
+                      {category.summary}
+                    </p>
                   </div>
                 </div>
-                <div className="mt-4 flex flex-wrap gap-1.5">
+
+                <div className="relative mt-4 flex flex-wrap gap-1.5 border-t border-dashed border-charcoal/10 pt-3 sm:ml-20">
                   {category.offerings.slice(0, 3).map((offering) => (
-                    <span key={offering} className="rounded-full bg-[#F0E5F3] px-2.5 py-1 text-[10px] text-charcoal/70">
+                    <span
+                      key={offering}
+                      className="rounded-full bg-[#F5EDF7] px-3 py-1.5 text-[9px] font-medium text-charcoal/65 transition-colors group-hover:bg-[#EBDDEE] group-hover:text-ink"
+                    >
                       {offering}
                     </span>
                   ))}
@@ -558,74 +676,158 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 7. Real marketplace standards */}
-      <section className="py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="overflow-hidden rounded-3xl border border-[#D8BED8] bg-[#FAF2FC] shadow-[0_18px_50px_rgba(59,31,50,0.08)]">
-            <div className="grid gap-10 p-7 sm:p-10 lg:grid-cols-[0.9fr_1.1fr] lg:p-12">
-              <div>
-                <span className="font-mono text-xs font-bold uppercase tracking-widest text-clay">
-                  Built for real home businesses
-                </span>
-                <h2 className="mt-2 font-display text-3xl font-bold text-ink sm:text-4xl">
-                  Clear details before every local order.
-                </h2>
-                <p className="mt-4 max-w-xl text-sm leading-7 text-charcoal/70">
-                  Home-made products are personal and often made to order. Her HomeNest helps buyers
-                  and homemakers confirm the important details early, so expectations stay clear from
-                  the first message to collection or delivery.
-                </p>
+      {/* 7. Why choose us */}
+      <section className="why-choose-section relative overflow-hidden bg-[#F8F0FA] py-20">
+        <div className="why-choose-orb pointer-events-none absolute -left-20 top-20 h-72 w-72 rounded-full bg-white/80 blur-3xl" />
+        <div className="why-choose-orb-delayed pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-turmeric/15 blur-3xl" />
 
-                <div className="mt-7 rounded-2xl border border-white/80 bg-white/70 p-5">
-                  <p className="font-display text-lg font-bold text-charcoal">Before you confirm an order</p>
-                  <ul className="mt-4 grid gap-3 text-xs leading-relaxed text-charcoal/70 sm:grid-cols-2 lg:grid-cols-1">
-                    {[
-                      "Confirm the final price and advance payment.",
-                      "Ask about ingredients, allergens or materials.",
-                      "Agree on size, quantity and custom changes.",
-                      "Confirm pickup, delivery area and completion date.",
-                    ].map((item) => (
-                      <li key={item} className="flex items-start gap-2.5">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-[#25D366]/15 text-[11px] font-bold text-[#128C4A]">
-                          ✓
-                        </span>
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="mx-auto mb-12 max-w-3xl text-center">
+            <span className="inline-flex items-center gap-2 rounded-full border border-[#D8BED8] bg-white/75 px-4 py-2 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-clay shadow-sm backdrop-blur">
+              <Heart className="h-3.5 w-3.5 fill-clay/15" />
+              Why choose Her HomeNest
+            </span>
+            <h2 className="mt-4 font-display text-4xl font-bold tracking-tight text-ink sm:text-5xl">
+              Local trust, thoughtful craft,
+              <span className="block italic text-clay">and real human connection.</span>
+            </h2>
+            <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-charcoal/65">
+              A marketplace designed around the way home businesses truly work—personal,
+              flexible and rooted in the community.
+            </p>
+          </div>
+
+          <div className="grid items-stretch gap-8 lg:grid-cols-[0.82fr_1.18fr]">
+            <div className="why-visual relative min-h-[560px] overflow-hidden rounded-[2rem] bg-ink shadow-[0_24px_60px_rgba(59,31,50,0.2)]">
+              <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_12%,rgba(227,162,60,.25),transparent_32%),linear-gradient(145deg,#3B1F32,#5B304C)]" />
+
+              <div className="absolute left-6 top-7 z-20 max-w-xs text-white sm:left-8 sm:top-9">
+                <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-turmeric">
+                  Made by her • chosen by you
+                </span>
+                <h3 className="mt-2 font-display text-3xl font-bold leading-tight">
+                  Every order carries a local story.
+                </h3>
+              </div>
+
+              <div className="why-photo-main absolute inset-x-6 bottom-7 top-40 overflow-hidden rounded-3xl border border-white/15 shadow-2xl sm:inset-x-8">
+                <Image
+                  src="/marketplace/handmade-bracelet-gift-box.png"
+                  alt="Handmade bracelet presented in a gift box"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 34vw"
+                  className="object-cover transition-transform duration-700 hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 flex items-end justify-between gap-4 p-5 text-white">
+                  <div>
+                    <p className="font-display text-xl font-bold">Gift-ready, made personally</p>
+                    <p className="mt-1 text-[11px] text-white/70">Custom colours • Message tags • Direct from maker</p>
+                  </div>
+                  <Gift className="h-6 w-6 shrink-0 text-turmeric" />
                 </div>
               </div>
 
-              <div className="grid gap-4 sm:grid-cols-2">
-                {[
-                  ["✓", "Reviewed profiles", "Identity, location and sample work are checked before public approval."],
-                  ["LKR", "Transparent listings", "Prices, lead times and available options help customers compare clearly."],
-                  ["💬", "Direct communication", "Pre-filled WhatsApp enquiries make it easy to discuss custom requirements."],
-                  ["★", "Community reviews", "Completed customers can share honest feedback that builds local trust."],
-                ].map(([icon, title, copy]) => (
-                  <article
-                    key={title}
-                    className="rounded-2xl border border-[#E7D9EA] bg-white p-5 shadow-[0_5px_18px_rgba(59,31,50,0.05)]"
-                  >
-                    <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#F0E5F3] font-mono text-sm font-bold text-ink">
-                      {icon}
-                    </span>
-                    <h3 className="mt-4 font-display text-lg font-bold text-charcoal">{title}</h3>
-                    <p className="mt-2 text-xs leading-relaxed text-charcoal/65">{copy}</p>
-                  </article>
-                ))}
+              <div className="why-mini-photo absolute -right-2 top-24 z-20 hidden h-32 w-32 rotate-3 overflow-hidden rounded-2xl border-4 border-white shadow-xl sm:block">
+                <Image
+                  src="/marketplace/floral-embroidery-hoop.png"
+                  alt="Floral hand embroidery"
+                  fill
+                  sizes="128px"
+                  className="object-cover"
+                />
+              </div>
+
+              <div className="absolute bottom-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-white/20 bg-white/15 px-4 py-2 font-mono text-[9px] font-bold uppercase tracking-wider text-white backdrop-blur-md">
+                <ShieldCheck className="h-3.5 w-3.5 text-turmeric" />
+                Verified local makers
               </div>
             </div>
 
-            <div className="flex flex-col justify-between gap-4 border-t border-[#D8BED8] bg-white/55 px-7 py-5 sm:flex-row sm:items-center sm:px-10 lg:px-12">
-              <p className="text-xs leading-relaxed text-charcoal/65">
-                Are you a homemaker? Add clear photos, pricing and preparation times to receive better enquiries.
-              </p>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                {
+                  icon: ShieldCheck,
+                  title: "Verified homemaker profiles",
+                  copy: "Identity, Colombo location and real work samples are reviewed before profiles go public.",
+                  accent: "plum",
+                },
+                {
+                  icon: MessageCircle,
+                  title: "Direct WhatsApp communication",
+                  copy: "Ask about prices, availability, ingredients, sizing and delivery without a middle layer.",
+                  accent: "green",
+                },
+                {
+                  icon: Heart,
+                  title: "Zero marketplace commission",
+                  copy: "Her HomeNest takes no cut from orders, so more of every payment stays with the maker.",
+                  accent: "clay",
+                },
+                {
+                  icon: MapPin,
+                  title: "Colombo women entrepreneurs",
+                  copy: "Discover neighbourhood talent and support women building income from skills at home.",
+                  accent: "gold",
+                },
+                {
+                  icon: Gift,
+                  title: "Custom handmade orders",
+                  copy: "Personalise colours, sizes, flavours, packaging and message cards directly with the creator.",
+                  accent: "plum",
+                },
+                {
+                  icon: Star,
+                  title: "Honest customer reviews",
+                  copy: "Real feedback helps you choose confidently and helps excellent local businesses grow.",
+                  accent: "gold",
+                },
+              ].map(({ icon: Icon, title, copy, accent }, index) => (
+                <article
+                  key={title}
+                  className="why-benefit-card group rounded-3xl border border-[#E3D1E6] bg-white/85 p-5 shadow-[0_8px_26px_rgba(59,31,50,0.06)] backdrop-blur transition-all duration-300 hover:-translate-y-1.5 hover:border-[#B993B1] hover:shadow-[0_18px_36px_rgba(59,31,50,0.12)] sm:p-6"
+                  style={{ animationDelay: `${index * 80}ms` }}
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <span
+                      className={`flex h-12 w-12 items-center justify-center rounded-2xl transition-transform duration-300 group-hover:rotate-3 group-hover:scale-105 ${
+                        accent === "green"
+                          ? "bg-[#25D366] text-white shadow-[0_7px_18px_rgba(37,211,102,0.22)]"
+                          : accent === "clay"
+                            ? "bg-clay/12 text-clay"
+                            : accent === "gold"
+                              ? "bg-turmeric/15 text-[#B67817]"
+                              : "bg-[#F0E5F3] text-ink"
+                      }`}
+                    >
+                      <Icon className="h-5 w-5" strokeWidth={1.9} />
+                    </span>
+                    <span className="font-mono text-[9px] font-bold text-charcoal/25">0{index + 1}</span>
+                  </div>
+                  <h3 className="mt-5 font-display text-xl font-bold text-charcoal">{title}</h3>
+                  <p className="mt-2 text-xs leading-6 text-charcoal/60">{copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-col items-center justify-between gap-5 rounded-3xl border border-[#D8BED8] bg-white/75 p-6 shadow-sm backdrop-blur sm:flex-row sm:px-8">
+            <div>
+              <p className="font-display text-xl font-bold text-charcoal">Ready to discover something made with care?</p>
+              <p className="mt-1 text-xs text-charcoal/55">Browse verified makers or open your own free homemaker storefront.</p>
+            </div>
+            <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+              <Link
+                href="/explore"
+                className="rounded-xl bg-ink px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider text-white shadow-lg transition-all hover:-translate-y-0.5 hover:bg-betel"
+              >
+                Explore makers
+              </Link>
               <Link
                 href="/register"
-                className="shrink-0 rounded-xl bg-ink px-5 py-3 text-center text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-betel"
+                className="rounded-xl border border-ink/15 bg-[#FAF2FC] px-6 py-3.5 text-center text-xs font-bold uppercase tracking-wider text-ink transition-all hover:-translate-y-0.5 hover:border-[#B993B1]"
               >
-                Create your free shop
+                Join as homemaker
               </Link>
             </div>
           </div>

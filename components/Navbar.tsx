@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { getActiveSession, setActiveSession, UserSession } from "@/lib/mock-data";
 
 const navLinks = [
+  { href: "/", label: "Home" },
   { href: "/explore", label: "Explore" },
   { href: "/#categories", label: "Categories" },
   { href: "/about", label: "About" },
@@ -57,10 +58,6 @@ export function Navbar() {
       : session.role === "Homemaker"
         ? "/homemaker-portal/dashboard"
         : "/";
-  const visibleNavLinks = session.role
-    ? navLinks
-    : [{ href: "/", label: "Home" }, ...navLinks];
-
   const handleLogout = () => {
     setActiveSession({ role: null, email: null });
     setSession({ role: null, email: null });
@@ -91,7 +88,7 @@ export function Navbar() {
           </Link>
 
           <div className="hidden items-center gap-2 md:flex">
-            {visibleNavLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -109,12 +106,14 @@ export function Navbar() {
           <div className="hidden items-center gap-2 md:flex">
             {session.role ? (
               <>
-                <Link
-                  href={dashboardHref}
-                  className="rounded-lg bg-turmeric px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-ink shadow-sm"
-                >
-                  {session.role === "Customer" ? "Home" : "Dashboard"}
-                </Link>
+                {session.role !== "Customer" && (
+                  <Link
+                    href={dashboardHref}
+                    className="rounded-lg bg-turmeric px-4 py-2.5 font-mono text-xs font-bold uppercase tracking-wider text-ink shadow-sm"
+                  >
+                    Dashboard
+                  </Link>
+                )}
                 <button onClick={handleLogout} className="rounded-lg px-3 py-2 text-xs font-bold text-charcoal/65 hover:bg-paper">
                   Logout
                 </button>
@@ -151,7 +150,7 @@ export function Navbar() {
       {mobileMenuOpen && (
         <div className="border-t border-[#D8BED8] bg-[#FAF2FC] px-4 py-4 shadow-inner md:hidden">
           <div className="space-y-1">
-            {visibleNavLinks.map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
@@ -167,10 +166,17 @@ export function Navbar() {
           <div className="mt-4 grid grid-cols-2 gap-2 border-t border-dashed border-charcoal/15 pt-4">
             {session.role ? (
               <>
-                <Link href={dashboardHref} onClick={() => setMobileMenuOpen(false)} className="rounded-lg bg-turmeric px-4 py-2.5 text-center text-xs font-bold uppercase text-ink">
-                  {session.role === "Customer" ? "Home" : "Dashboard"}
-                </Link>
-                <button onClick={handleLogout} className="rounded-lg border border-ink/15 px-4 py-2.5 text-xs font-bold uppercase text-ink">
+                {session.role !== "Customer" && (
+                  <Link href={dashboardHref} onClick={() => setMobileMenuOpen(false)} className="rounded-lg bg-turmeric px-4 py-2.5 text-center text-xs font-bold uppercase text-ink">
+                    Dashboard
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className={`rounded-lg border border-ink/15 px-4 py-2.5 text-xs font-bold uppercase text-ink ${
+                    session.role === "Customer" ? "col-span-2" : ""
+                  }`}
+                >
                   Logout
                 </button>
               </>

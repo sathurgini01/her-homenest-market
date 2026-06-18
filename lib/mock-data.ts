@@ -911,7 +911,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     ownerFirstName: "Dilhara",
     category: "Bags & Pouches",
     area: "Wellawatte",
-    bio: "Beautifully designed hand-crocheted bags, macramé clutches, and customized fabric accessories. Each piece is hand-looped and stitched using local organic cotton thread and natural coconut shells for buttons. Perfect for tropical days and sustainable lifestyle lovers.",
+    bio: "Beautifully designed hand-crocheted bags, macramé clutches, and customized fabric accessories. Each handmade gift can be personalized for birthdays and children. Every piece is hand-looped and stitched using local organic cotton thread.",
     photos: [
       "/marketplace/animal-mini-bags.png",
       "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&auto=format&fit=crop&q=80",
@@ -1007,8 +1007,9 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     ownerFirstName: "Anu",
     category: "Jewelry",
     area: "Bambalapitiya",
-    bio: "Resin pendants, thread-wrapped hoops and delicate macrame necklaces made locally. Custom colors and small-batch bridal sets available.",
+    bio: "Handmade gift jewelry including bead bracelets, resin pendants, thread-wrapped hoops and delicate macrame necklaces. Custom colours, gift boxes and handwritten tags are available.",
     photos: [
+      "/marketplace/handmade-bracelet-gift-box.png",
       "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1520975913237-3f8b9d6e3f8a?w=600&auto=format&fit=crop&q=80"
     ],
@@ -1020,6 +1021,13 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     availableToday: true,
     whatsappNumber: "94771234999",
     listings: [
+      {
+        id: "l_25_3",
+        name: "Handmade Bead Bracelet Gift Box",
+        description: "A gift-ready bracelet with plum and sage beads, warm brass details, floral charm, kraft message tag, and dusty-rose keepsake box.",
+        price: 1850,
+        photo: "/marketplace/handmade-bracelet-gift-box.png"
+      },
       {
         id: "l_25_1",
         name: "Hand-poured Resin Pendant (Custom Color)",
@@ -1043,7 +1051,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     ownerFirstName: "Roshini",
     category: "Hair Accessories",
     area: "Wellawatte",
-    bio: "Handcrafted fabric flower clips and bridal hairpins. Lightweight, durable, and available in fresh-look fabric or satin finishes.",
+    bio: "Handcrafted fabric flower clips and bridal hairpins. A colourful handmade gift idea for birthdays, bridesmaids and small celebrations, available in fabric or satin finishes.",
     photos: [
       "/marketplace/flower-hair-clips.png",
       "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=600&auto=format&fit=crop&q=80"
@@ -1115,7 +1123,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     ownerFirstName: "Tharani",
     category: "Fashion Add-ons",
     area: "Borella",
-    bio: "Custom embroidered patches, handmade buttons, and unique brooches to personalize garments and bags.",
+    bio: "Custom embroidered patches, floral hoops, handmade buttons and unique brooches. A personalized handmade gift for new homes, birthdays and meaningful keepsakes.",
     photos: [
       "/marketplace/floral-embroidery-hoop.png",
       "https://images.unsplash.com/photo-1549213783-8284d0336cbe?w=600&auto=format&fit=crop&q=80"
@@ -1203,7 +1211,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
   }
 ];
 
-const CATALOG_IMAGE_REFRESH_IDS = new Set(["hm_11", "hm_26", "hm_27", "hm_28"]);
+const CATALOG_IMAGE_REFRESH_IDS = new Set(["hm_11", "hm_25", "hm_26", "hm_27", "hm_28"]);
 
 const INITIAL_INQUIRIES: Inquiry[] = [
   {
@@ -1238,13 +1246,13 @@ export const getStoredHomemakers = (): Homemaker[] => {
   }
   try {
     const parsed = JSON.parse(stored) as Homemaker[];
-    return parsed.map((homemaker) => ({
+    const refreshedStored = parsed.map((homemaker) => ({
       ...homemaker,
       ...(CATALOG_IMAGE_REFRESH_IDS.has(homemaker.id)
         ? (() => {
             const refreshed = INITIAL_HOMEMAKERS.find((item) => item.id === homemaker.id);
             return refreshed
-              ? { photos: refreshed.photos, listings: refreshed.listings }
+              ? { bio: refreshed.bio, photos: refreshed.photos, listings: refreshed.listings }
               : {};
           })()
         : {}),
@@ -1255,6 +1263,9 @@ export const getStoredHomemakers = (): Homemaker[] => {
           ? "Bags & Pouches"
           : homemaker.category,
     }));
+    const storedIds = new Set(refreshedStored.map((homemaker) => homemaker.id));
+    const newlyAddedHomemakers = INITIAL_HOMEMAKERS.filter((homemaker) => !storedIds.has(homemaker.id));
+    return [...refreshedStored, ...newlyAddedHomemakers];
   } catch (e) {
     return INITIAL_HOMEMAKERS;
   }

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { Gift, MessageCircle, Sparkles } from "lucide-react";
 import { CATEGORIES, COLOMBO_AREAS, getPublicHomemakers } from "@/lib/mock-data";
 import { Homemaker } from "@/lib/types";
 import { Navbar } from "@/components/Navbar";
@@ -22,6 +23,7 @@ function ExploreContent() {
   
   const [allSellers, setAllSellers] = useState<Homemaker[]>([]);
   const [filteredSellers, setFilteredSellers] = useState<Homemaker[]>([]);
+  const isGiftSearch = searchQuery.toLowerCase().includes("gift");
 
   // Update states if query params change
   useEffect(() => {
@@ -49,17 +51,20 @@ function ExploreContent() {
     // Search query matching (matches business name, owner name, bio, or listings)
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase().trim();
-      result = result.filter(
-        (h) =>
-          h.businessName.toLowerCase().includes(query) ||
-          h.ownerFirstName.toLowerCase().includes(query) ||
-          h.bio.toLowerCase().includes(query) ||
-          h.listings.some(
-            (l) =>
-              l.name.toLowerCase().includes(query) ||
-              l.description.toLowerCase().includes(query)
-          )
-      );
+      const queryWords = query.split(/\s+/).filter(Boolean);
+      result = result.filter((h) => {
+        const searchableText = [
+          h.businessName,
+          h.ownerFirstName,
+          h.category,
+          h.bio,
+          ...h.listings.flatMap((listing) => [listing.name, listing.description]),
+        ]
+          .join(" ")
+          .toLowerCase();
+
+        return searchableText.includes(query) || queryWords.every((word) => searchableText.includes(word));
+      });
     }
 
     // Category filter
@@ -109,6 +114,47 @@ function ExploreContent() {
           Discover hand-selected women-led kitchens, tailoring workshops, and tutoring centers across Sri Lanka. Message directly over WhatsApp to custom-tailor your requests.
         </p>
       </div>
+
+      {isGiftSearch && (
+        <div className="relative mb-8 overflow-hidden rounded-3xl border border-[#D8BED8] bg-[#FAF2FC] p-5 shadow-[0_12px_35px_rgba(59,31,50,0.08)] sm:p-6">
+          <div className="pointer-events-none absolute -right-12 -top-16 h-40 w-40 rounded-full bg-turmeric/20 blur-3xl" />
+          <div className="relative flex flex-col justify-between gap-5 lg:flex-row lg:items-center">
+            <div className="flex items-start gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-ink text-white shadow-lg">
+                <Gift className="h-6 w-6" />
+              </span>
+              <div>
+                <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-clay">
+                  Curated gift-ready makers
+                </span>
+                <h2 className="mt-1 font-display text-2xl font-bold text-ink">
+                  Handmade gifts with a personal touch
+                </h2>
+                <p className="mt-1 max-w-2xl text-xs leading-relaxed text-charcoal/60">
+                  Ask the maker for custom colours, gift-box presentation, a name tag or a handwritten message.
+                </p>
+              </div>
+            </div>
+            <div className="grid grid-cols-3 gap-2 text-center">
+              {[
+                [Sparkles, "Personalised"],
+                [Gift, "Gift boxed"],
+                [MessageCircle, "Direct chat"],
+              ].map(([Icon, label]) => {
+                const BenefitIcon = Icon as typeof Gift;
+                return (
+                  <div key={label as string} className="rounded-xl border border-white bg-white/80 px-3 py-3">
+                    <BenefitIcon className="mx-auto h-4 w-4 text-clay" />
+                    <p className="mt-1 font-mono text-[8px] font-bold uppercase tracking-wider text-charcoal/55">
+                      {label as string}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         
