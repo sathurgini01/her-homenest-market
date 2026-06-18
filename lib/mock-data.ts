@@ -7,7 +7,11 @@ export const CATEGORIES: Category[] = [
   "Handicrafts",
   "Beauty at Home",
   "Tuition & Classes",
-  "Accessories & Bags"
+  "Jewelry",
+  "Hair Accessories",
+  "Bags & Pouches",
+  "Fashion Add-ons",
+  "Home-to-Wear Crossover"
 ];
 
 export const COLOMBO_AREAS = [
@@ -83,6 +87,129 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     ]
   },
   {
+    id: "hm_12",
+    businessName: "Sanjana's Street Food Studio",
+    ownerFirstName: "Sanjana",
+    category: "Home-cooked Meals",
+    area: "Nugegoda",
+    bio: "Expert in Sri Lankan short eats and kottu roti. Handmade kottu from scratch daily with tender chicken, vegetables, and roasted curry powder. Also doing devilled dishes and cutlets for office lunch boxes.",
+    photos: [
+      "https://images.unsplash.com/photo-1604482827473-30ac08a91e27?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1603046891726-36bfd957e2af?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.7,
+    reviewCount: 9,
+    priceFrom: 350,
+    verified: true,
+    featured: true,
+    availableToday: true,
+    whatsappNumber: "94771234568",
+    listings: [
+      {
+        id: "l_12_1",
+        name: "Chicken Kottu Roti (Single)",
+        description: "Handmade roti chopped and mixed with tender chicken, cabbage, carrots, and roasted curry powder. Served with light curry sauce.",
+        price: 580,
+        photo: "https://images.unsplash.com/photo-1604482827473-30ac08a91e27?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_12_2",
+        name: "Box of 6 Chicken Cutlets",
+        description: "Crispy fried chicken cutlets with spiced potato filling. Perfect with a cup of tea.",
+        price: 980,
+        photo: "https://images.unsplash.com/photo-1603046891726-36bfd957e2af?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_12_3",
+        name: "Devilled Dishes Lunch Pack (Veg or Non-Veg)",
+        description: "Rice with your choice of devilled chicken, prawns, or vegetables cooked in a fiery sauce with capsicum and onion.",
+        price: 650,
+        photo: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: [
+      {
+        id: "r_12_1",
+        customerName: "Roshan Kular",
+        rating: 4.8,
+        comment: "Sanjana's kottu is insanely good. The roti texture is perfect and the curry powder flavor is just right. Better than most restaurant kottu!",
+        date: "2026-06-13"
+      }
+    ]
+  },
+  {
+    id: "hm_13",
+    businessName: "Lakshmi's Pickle & Preserve Kitchen",
+    ownerFirstName: "Lakshmi",
+    category: "Home-cooked Meals",
+    area: "Bambalapitiya",
+    bio: "Traditional Sri Lankan preserves and pickles made using authentic grandmother recipes. Lunu miris (chili paste), achaar (mixed pickles), and homemade coconut sambol - all without any preservatives.",
+    photos: [
+      "https://images.unsplash.com/photo-1604080168296-30c3ce1c8d05?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1585092918356-41fac85c5320?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.8,
+    reviewCount: 6,
+    priceFrom: 400,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94771234569",
+    listings: [
+      {
+        id: "l_13_1",
+        name: "Homemade Lunu Miris (500g jar)",
+        description: "Traditional chili paste with fresh curry leaves, onions, and lime juice. Pairs perfectly with rice and curry.",
+        price: 580,
+        photo: "https://images.unsplash.com/photo-1604080168296-30c3ce1c8d05?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_13_2",
+        name: "Mixed Fruit Achcharu (600g jar)",
+        description: "Tangy pickled mix of green mango, pineapple, and lime with aromatic spices.",
+        price: 680,
+        photo: "https://images.unsplash.com/photo-1585092918356-41fac85c5320?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_14",
+    businessName: "Priya's String Hoppers & Puttu Corner",
+    ownerFirstName: "Priya",
+    category: "Home-cooked Meals",
+    area: "Dehiwala",
+    bio: "Specialized in making fresh string hoppers (idiyappam) and puttu every morning. Served with rich coconut curry, chickpea curry, or jaggery-palm sugar sauce. Perfect breakfast delivery!",
+    photos: [
+      "https://images.unsplash.com/photo-1585521537684-38d840651ef7?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.9,
+    reviewCount: 11,
+    priceFrom: 250,
+    verified: true,
+    featured: true,
+    availableToday: true,
+    whatsappNumber: "94771234570",
+    listings: [
+      {
+        id: "l_14_1",
+        name: "Fresh String Hoppers with Chickpea Curry",
+        description: "Steamed rice and wheat string hoppers served with aromatic chickpea curry and spiced onions.",
+        price: 350,
+        photo: "https://images.unsplash.com/photo-1585521537684-38d840651ef7?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_14_2",
+        name: "Sweet Puttu with Jaggery Sauce",
+        description: "Steamed cylindrical puttu (rice and jaggery cake) served warm with melted palm jaggery syrup.",
+        price: 280,
+        photo: "https://images.unsplash.com/photo-1541519227354-08fa5d50c44d?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
     id: "hm_2",
     businessName: "Kumari's Elegant Tailors",
     ownerFirstName: "Kumari",
@@ -132,6 +259,41 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         date: "2026-06-02"
       }
     ]
+  },
+  {
+    id: "hm_15",
+    businessName: "Anjana's Quick Stitch",
+    ownerFirstName: "Anjana",
+    category: "Tailoring & Alterations",
+    area: "Kollupitiya",
+    bio: "Fast turnaround for school uniform adjustments, trouser hemming, and basic alterations. Walk-in friendly on weekends. Quality stitching at affordable prices.",
+    photos: [
+      "https://images.unsplash.com/photo-1590080876-e4cd35b62fc0?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.6,
+    reviewCount: 7,
+    priceFrom: 400,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94772345679",
+    listings: [
+      {
+        id: "l_15_1",
+        name: "School Uniform Trouser Hemming",
+        description: "Quick hemming service for school trousers. Completed within 1-2 days.",
+        price: 400,
+        photo: "https://images.unsplash.com/photo-1590080876-e4cd35b62fc0?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_15_2",
+        name: "Shirt Button Replacement & Quick Repairs",
+        description: "Buttonhole adjustments, loose seam repairs, and zipper replacements.",
+        price: 300,
+        photo: "https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
   },
   {
     id: "hm_3",
@@ -185,6 +347,85 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     ]
   },
   {
+    id: "hm_16",
+    businessName: "Deepa's Love Cake & Sri Lankan Classics",
+    ownerFirstName: "Deepa",
+    category: "Baking & Desserts",
+    area: "Mount Lavinia",
+    bio: "Traditional Sri Lankan bakery items. Freshly baked love cakes, kokis, kavum, and festive shortbreads. Handmade using pure ghee and local spices.",
+    photos: [
+      "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1585343675557-20a82fbaa267?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.9,
+    reviewCount: 16,
+    priceFrom: 600,
+    verified: true,
+    featured: true,
+    availableToday: true,
+    whatsappNumber: "94773456790",
+    listings: [
+      {
+        id: "l_16_1",
+        name: "Traditional Sri Lankan Love Cake (1 kg)",
+        description: "Moist spiced cake layered with fruit preserve and fondant icing. Perfect for celebrations!",
+        price: 2200,
+        photo: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_16_2",
+        name: "Box of Kokis (12 pieces)",
+        description: "Crispy, thin coconut and jaggery oil cakes - a festive favorite from Sri Lanka.",
+        price: 900,
+        photo: "https://images.unsplash.com/photo-1585343675557-20a82fbaa267?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_16_3",
+        name: "Box of Assorted Biscuits",
+        description: "Mix of peanut biscuits, chocolate chip, and cardamom-spiced shortbread. Homemade butter goodness.",
+        price: 1200,
+        photo: "https://images.unsplash.com/photo-1599599810694-b5ac4dd90e12?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_17",
+    businessName: "Nina's Cupcake Studio",
+    ownerFirstName: "Nina",
+    category: "Baking & Desserts",
+    area: "Rajagiriya",
+    bio: "Fluffy, moist custom cupcakes and mini cakes. Every flavor imaginable - vanilla bean, chocolate fudge, lemon citrus, strawberry cheesecake. Perfect for small parties and office meetings!",
+    photos: [
+      "https://images.unsplash.com/photo-1587080192892-8b1ba0e8e98f?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.7,
+    reviewCount: 8,
+    priceFrom: 280,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94773456791",
+    listings: [
+      {
+        id: "l_17_1",
+        name: "Box of 6 Premium Cupcakes",
+        description: "Assorted flavors - vanilla, chocolate, strawberry, or lemon. Beautifully frosted with buttercream swirls.",
+        price: 1680,
+        photo: "https://images.unsplash.com/photo-1587080192892-8b1ba0e8e98f?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_17_2",
+        name: "Single Premium Cupcake",
+        description: "Pick your flavor and topping. Fresh baked to order.",
+        price: 320,
+        photo: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
     id: "hm_4",
     businessName: "Srimathi's Tanjore Crafts & Handlooms",
     ownerFirstName: "Srimathi",
@@ -227,6 +468,114 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         date: "2026-05-28"
       }
     ]
+  },
+  {
+    id: "hm_18",
+    businessName: "Chandni's Batik Boutique",
+    ownerFirstName: "Chandni",
+    category: "Handicrafts",
+    area: "Wellawatte",
+    bio: "Handmade batik sarongs, wall hangings, and fabric items using traditional wax-resist dyeing techniques. Each piece is unique and eco-friendly.",
+    photos: [
+      "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1585435557529-14ccbf8c51f5?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.8,
+    reviewCount: 10,
+    priceFrom: 1200,
+    verified: true,
+    featured: true,
+    availableToday: true,
+    whatsappNumber: "94774567891",
+    listings: [
+      {
+        id: "l_18_1",
+        name: "Hand-batik Sarong (Traditional Design)",
+        description: "Authentic wax-batik sarong using traditional methods. Lightweight cotton blend, perfect for tropical weather.",
+        price: 2800,
+        photo: "https://images.unsplash.com/photo-1605721911519-3dfeb3be25e7?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_18_2",
+        name: "Batik Wall Hanging (60x90cm)",
+        description: "Decorative fabric wall art featuring geometric and floral batik patterns.",
+        price: 2200,
+        photo: "https://images.unsplash.com/photo-1585435557529-14ccbf8c51f5?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_19",
+    businessName: "Meera's Beaded Jewelry",
+    ownerFirstName: "Meera",
+    category: "Handicrafts",
+    area: "Nugegoda",
+    bio: "Handmade jewelry using colorful beads, brass components, and semi-precious stones. Each piece is crafted with meticulous attention to detail.",
+    photos: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1515562141207-5dca89f169d1?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.9,
+    reviewCount: 12,
+    priceFrom: 800,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94774567892",
+    listings: [
+      {
+        id: "l_19_1",
+        name: "Colorful Beaded Necklace Set",
+        description: "Handmade with glass and wooden beads, brass spacers, and adjustable nylon cord. Multiple color combinations available.",
+        price: 1200,
+        photo: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_19_2",
+        name: "Semi-precious Stone Bracelet",
+        description: "Amethyst, rose quartz, or jasper beads strung on elastic cord with brass accents.",
+        price: 980,
+        photo: "https://images.unsplash.com/photo-1515562141207-5dca89f169d1?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_20",
+    businessName: "Priyanka's Crochet Haven",
+    ownerFirstName: "Priyanka",
+    category: "Handicrafts",
+    area: "Mount Lavinia",
+    bio: "Beautifully designed hand-crocheted items - doilies, table mats, cushion covers, and decorative items. Using quality yarn in natural and vibrant colors.",
+    photos: [
+      "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1609270103543-b1f1e5a72f0f?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.7,
+    reviewCount: 8,
+    priceFrom: 600,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94774567893",
+    listings: [
+      {
+        id: "l_20_1",
+        name: "Hand-crocheted Table Mat Set (4 pieces)",
+        description: "Square coasters and larger mats in colorful cotton yarn. Adds a homey touch to any dining table.",
+        price: 1400,
+        photo: "https://images.unsplash.com/photo-1609270103543-b1f1e5a72f0f?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_20_2",
+        name: "Crochet Doily (30cm diameter)",
+        description: "Delicate circular doily with intricate patterns. Perfect as table centerpiece or wall decoration.",
+        price: 850,
+        photo: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
   },
   {
     id: "hm_5",
@@ -280,6 +629,42 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     ]
   },
   {
+    id: "hm_21",
+    businessName: "Sangeeta's Hair & Threading Studio",
+    ownerFirstName: "Sangeeta",
+    category: "Beauty at Home",
+    area: "Kollupitiya",
+    bio: "Specialized in bridal hair styling, hair oil therapy, and threading services. Using premium hair products and natural threading methods.",
+    photos: [
+      "https://images.unsplash.com/photo-1560066620-7c20f1ce247c?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.8,
+    reviewCount: 9,
+    priceFrom: 400,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94775678902",
+    listings: [
+      {
+        id: "l_21_1",
+        name: "Bridal Hair & Makeup Styling (Full Package)",
+        description: "Complete bridal styling with hair setting, makeup application, and touch-up support on the wedding day.",
+        price: 8500,
+        photo: "https://images.unsplash.com/photo-1560066620-7c20f1ce247c?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_21_2",
+        name: "Eyebrow Threading + Upper Lip",
+        description: "Professional threading service with soothing after-care.",
+        price: 450,
+        photo: "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
     id: "hm_6",
     businessName: "Aunty Geetha's Mathematics & English Classes",
     ownerFirstName: "Geetha",
@@ -322,6 +707,71 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         date: "2026-06-05"
       }
     ]
+  },
+  {
+    id: "hm_22",
+    businessName: "Ravi's Sinha-English Tuition",
+    ownerFirstName: "Ravi",
+    category: "Tuition & Classes",
+    area: "Battaramulla",
+    bio: "Specializing in Sinhala language and English literature tutoring for school students. Personalized one-on-one sessions available.",
+    photos: [
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.6,
+    reviewCount: 5,
+    priceFrom: 1200,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94776789013",
+    listings: [
+      {
+        id: "l_22_1",
+        name: "Sinhala Language Coaching (Grade 6-10)",
+        description: "Grammar, composition writing, and literature analysis. One-on-one sessions tailored to student level.",
+        price: 3500,
+        photo: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_23",
+    businessName: "Lakshmi's Cooking Classes",
+    ownerFirstName: "Lakshmi",
+    category: "Tuition & Classes",
+    area: "Mount Lavinia",
+    bio: "Hands-on cooking class sessions for adults and teenagers. Learn Sri Lankan home cooking, baking, and fusion cuisine in a friendly, interactive home kitchen.",
+    photos: [
+      "https://images.unsplash.com/photo-1507238691854-564bafe89f3b?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.9,
+    reviewCount: 13,
+    priceFrom: 2500,
+    verified: true,
+    featured: true,
+    availableToday: false,
+    whatsappNumber: "94776789014",
+    listings: [
+      {
+        id: "l_23_1",
+        name: "2-Hour Sri Lankan Home Cooking Class",
+        description: "Learn to make 2-3 traditional Sri Lankan dishes. Includes ingredients, tips, and take-home recipes.",
+        price: 3500,
+        photo: "https://images.unsplash.com/photo-1507238691854-564bafe89f3b?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_23_2",
+        name: "Weekend Baking Workshop (3 hours)",
+        description: "Learn bread making, pastries, and Sri Lankan sweets in a fun, hands-on environment.",
+        price: 4200,
+        photo: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
   },
   {
     id: "hm_7",
@@ -515,6 +965,226 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         date: "2026-06-12"
       }
     ]
+  },
+  {
+    id: "hm_24",
+    businessName: "Yasmin's Woven Baskets",
+    ownerFirstName: "Yasmin",
+    category: "Accessories & Bags",
+    area: "Dehiwala",
+    bio: "Hand-woven wicker and palm baskets for storage, decoration, and gifting. Eco-friendly and sturdy designs perfect for Colombo homes.",
+    photos: [
+      "https://images.unsplash.com/photo-1595179218994-63aaec9aef29?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.7,
+    reviewCount: 6,
+    priceFrom: 1000,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94770234568",
+    listings: [
+      {
+        id: "l_24_1",
+        name: "Hand-woven Storage Basket (Large)",
+        description: "Spacious wicker basket with sturdy handles. Perfect for organizing home items or as a decorative piece.",
+        price: 2200,
+        photo: "https://images.unsplash.com/photo-1595179218994-63aaec9aef29?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_24_2",
+        name: "Small Decorative Woven Basket",
+        description: "Cute small basket for decorating shelves or gifting. Available in natural and dyed colors.",
+        price: 1200,
+        photo: "https://images.unsplash.com/photo-1557804506-669a67965ba0?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  }
+  ,
+  {
+    id: "hm_25",
+    businessName: "Anu's Resin & Thread Jewelry",
+    ownerFirstName: "Anu",
+    category: "Jewelry",
+    area: "Bambalapitiya",
+    bio: "Resin pendants, thread-wrapped hoops and delicate macrame necklaces made locally. Custom colors and small-batch bridal sets available.",
+    photos: [
+      "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1520975913237-3f8b9d6e3f8a?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.9,
+    reviewCount: 7,
+    priceFrom: 650,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94771234999",
+    listings: [
+      {
+        id: "l_25_1",
+        name: "Hand-poured Resin Pendant (Custom Color)",
+        description: "Lightweight resin pendant with embedded dried flower. Choice of cord or silver chain.",
+        price: 950,
+        photo: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_25_2",
+        name: "Macrame Thread Earrings",
+        description: "Hand-knotted thread earrings with brass studs. Multiple colorways available.",
+        price: 650,
+        photo: "https://images.unsplash.com/photo-1520975913237-3f8b9d6e3f8a?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_26",
+    businessName: "Roshini's Flower Clips",
+    ownerFirstName: "Roshini",
+    category: "Hair Accessories",
+    area: "Wellawatte",
+    bio: "Handcrafted fabric flower clips and bridal hairpins. Lightweight, durable, and available in fresh-look fabric or satin finishes.",
+    photos: [
+      "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.8,
+    reviewCount: 10,
+    priceFrom: 250,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94771234001",
+    listings: [
+      {
+        id: "l_26_1",
+        name: "Set of 3 Fabric Flower Clips",
+        description: "Soft fabric flowers sewn onto metal alligator clips. Great for everyday wear or festive looks.",
+        price: 450,
+        photo: "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=600&auto=format&fit=crop&q=80"
+      },
+      {
+        id: "l_26_2",
+        name: "Bridal Jeweled Hairpin",
+        description: "Hand-embedded crystals and pearls on a comb base for bridal hair styling.",
+        price: 2200,
+        photo: "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_27",
+    businessName: "Nisha's Crochet Bags",
+    ownerFirstName: "Nisha",
+    category: "Bags & Pouches",
+    area: "Mount Lavinia",
+    bio: "Colorful hand-crocheted bags and clutches made with durable cotton yarn. Custom sizes and pastel palettes available.",
+    photos: [
+      "https://images.unsplash.com/photo-1519472354638-2f6e6c6f87a3?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.7,
+    reviewCount: 5,
+    priceFrom: 1400,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94771234002",
+    listings: [
+      {
+        id: "l_27_1",
+        name: "Crochet Sling Bag (Medium)",
+        description: "Hand-crocheted sling bag with inner lining and button closure. Durable everyday companion.",
+        price: 1800,
+        photo: "https://images.unsplash.com/photo-1519472354638-2f6e6c6f87a3?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_28",
+    businessName: "Tharani's Embroidered Patches",
+    ownerFirstName: "Tharani",
+    category: "Fashion Add-ons",
+    area: "Borella",
+    bio: "Custom embroidered patches, handmade buttons, and unique brooches to personalize garments and bags.",
+    photos: [
+      "https://images.unsplash.com/photo-1549213783-8284d0336cbe?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.8,
+    reviewCount: 4,
+    priceFrom: 250,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94771234003",
+    listings: [
+      {
+        id: "l_28_1",
+        name: "Custom Embroidered Patch (Small)",
+        description: "Personalized patch for jackets, backpacks, or denim. Provide a name or small motif.",
+        price: 450,
+        photo: "https://images.unsplash.com/photo-1549213783-8284d0336cbe?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_29",
+    businessName: "TinyHands Crochet Baby",
+    ownerFirstName: "Siri",
+    category: "Home-to-Wear Crossover",
+    area: "Rajagiriya",
+    bio: "Handmade baby booties, headbands, and tiny mittens created with soft cotton and attention to newborn safety.",
+    photos: [
+      "https://images.unsplash.com/photo-1542332213-6e7b5a4b2f7a?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.9,
+    reviewCount: 9,
+    priceFrom: 350,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94771234004",
+    listings: [
+      {
+        id: "l_29_1",
+        name: "Set: Baby Booties + Headband",
+        description: "Soft cotton booties and matching headband set for newborns. Washable and cozy.",
+        price: 850,
+        photo: "https://images.unsplash.com/photo-1542332213-6e7b5a4b2f7a?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
+  },
+  {
+    id: "hm_30",
+    businessName: "Sowmya's Mask Studio",
+    ownerFirstName: "Sowmya",
+    category: "Home-to-Wear Crossover",
+    area: "Kollupitiya",
+    bio: "Stylish reusable fabric masks with embroidery and embellishments designed for fashion-forward wearers.",
+    photos: [
+      "https://images.unsplash.com/photo-1584036561584-b03c19da874c?w=600&auto=format&fit=crop&q=80"
+    ],
+    rating: 4.6,
+    reviewCount: 6,
+    priceFrom: 300,
+    verified: true,
+    featured: false,
+    availableToday: true,
+    whatsappNumber: "94771234005",
+    listings: [
+      {
+        id: "l_30_1",
+        name: "Embroidered Fashion Mask",
+        description: "Three-layer cotton mask with embroidered front and adjustable ear loops. Available in sets of 3.",
+        price: 900,
+        photo: "https://images.unsplash.com/photo-1584036561584-b03c19da874c?w=600&auto=format&fit=crop&q=80"
+      }
+    ],
+    reviews: []
   }
 ];
 
