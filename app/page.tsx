@@ -10,6 +10,7 @@ import { Footer } from "@/components/Footer";
 import { StitchDivider } from "@/components/StitchDivider";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { HomemakerCard } from "@/components/HomemakerCard";
+import { CheckCircle, MessageCircle, MapPin } from "lucide-react";
 
 export default function HomePage() {
   const router = useRouter();
@@ -40,6 +41,7 @@ export default function HomePage() {
 
   return (
     <div className="min-h-screen bg-paper flex flex-col selection:bg-turmeric/30 selection:text-ink">
+      {/* NAVBAR — STICKY HEADER WITH NAVIGATION & AUTH */}
       <Navbar />
 
       {/* SPECIAL CURATED HERO — EXCLUSIVE MOSAIC OVERLAPS WITH STITCH CORE */}
@@ -318,6 +320,98 @@ export default function HomePage() {
               <p className="text-xs text-charcoal/70 leading-relaxed font-sans">
                 Complete payments directly using Sri Lankan bank transfers or cash on delivery. Relish the unmatched, sincere texture of home-crafted products made with pure devotion.
               </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY SUPPORT WOMEN HOMEMAKERS — MISSION SECTION */}
+      <section className="bg-paper py-16 border-b border-charcoal/5">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="bg-white rounded-2xl p-8 sm:p-12 border border-charcoal/5">
+            <div className="max-w-3xl mx-auto">
+              <span className="font-mono text-xs text-turmeric uppercase tracking-widest font-bold">Our Mission</span>
+              <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-ink mt-2 mb-4">
+                Supporting Economic Empowerment of Colombo&apos;s Women
+              </h2>
+              <p className="text-sm text-charcoal/75 leading-relaxed font-sans mb-4">
+                Her HomeNest Market exists to unlock the untapped potential of Sri Lanka&apos;s talented women entrepreneurs. Many skilled homemakers possess culinary mastery, sewing expertise, baking talent, and educational abilities—yet lack a formal platform to reach customers and build sustainable income.
+              </p>
+              <p className="text-sm text-charcoal/75 leading-relaxed font-sans mb-4">
+                By shopping on this marketplace, you directly support women&apos;s economic independence, allow families to reinvest in their neighborhoods, and celebrate the true value of home-based artisanal skill. Every transaction strengthens Colombo&apos;s local economy and honors the quiet, transformative work happening inside homes across the city.
+              </p>
+              <p className="text-sm font-semibold text-charcoal">
+                When you buy from a homemaker, you&apos;re not just purchasing a product—you&apos;re building community.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CUSTOMER TESTIMONIALS SECTION */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center max-w-2xl mx-auto mb-12">
+          <span className="font-mono text-xs text-clay uppercase tracking-widest font-bold">Real Voices</span>
+          <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-ink mt-1">
+            What Colombo Customers Say
+          </h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {/* Testimonial 1 */}
+          <div className="bg-white p-6 rounded-2xl border border-charcoal/5 shadow-sm hover:shadow-md transition-all">
+            <div className="flex items-center gap-1 mb-3">
+              <span className="text-turmeric text-lg">⭐⭐⭐⭐⭐</span>
+            </div>
+            <p className="text-xs text-charcoal/80 leading-relaxed font-sans mb-4">
+              &quot;Fatheema&apos;s biryani changed my Friday nights. The quality is unreal—it tastes like it was cooked in someone&apos;s actual kitchen because it was. Way better than restaurant biryani.&quot;
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-turmeric/20 flex items-center justify-center text-turmeric font-bold text-xs">
+                AM
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-charcoal">Asha M.</p>
+                <p className="text-[10px] text-charcoal/50">Colombo 04</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 2 */}
+          <div className="bg-white p-6 rounded-2xl border border-charcoal/5 shadow-sm hover:shadow-md transition-all">
+            <div className="flex items-center gap-1 mb-3">
+              <span className="text-turmeric text-lg">⭐⭐⭐⭐⭐</span>
+            </div>
+            <p className="text-xs text-charcoal/80 leading-relaxed font-sans mb-4">
+              &quot;Kumari did my daughter&apos;s school frock alterations in 2 days, and it fits perfectly. She&apos;s honest about prices and super responsive on WhatsApp. Trusted her with 3 pieces now.&quot;
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-clay/20 flex items-center justify-center text-clay font-bold text-xs">
+                SR
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-charcoal">Sophia R.</p>
+                <p className="text-[10px] text-charcoal/50">Nugegoda</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Testimonial 3 */}
+          <div className="bg-white p-6 rounded-2xl border border-charcoal/5 shadow-sm hover:shadow-md transition-all">
+            <div className="flex items-center gap-1 mb-3">
+              <span className="text-turmeric text-lg">⭐⭐⭐⭐⭐</span>
+            </div>
+            <p className="text-xs text-charcoal/80 leading-relaxed font-sans mb-4">
+              &quot;Cocoa Hype Bakes sent chocolate brownies to my office for a colleague&apos;s birthday. Everyone asked where they came from. Supporting local talent has never tasted this good.&quot;
+            </p>
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-betel/20 flex items-center justify-center text-betel font-bold text-xs">
+                NP
+              </div>
+              <div>
+                <p className="text-xs font-semibold text-charcoal">Nisha P.</p>
+                <p className="text-[10px] text-charcoal/50">Colombo 03</p>
+              </div>
             </div>
           </div>
         </div>
