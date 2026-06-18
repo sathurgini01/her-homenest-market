@@ -95,7 +95,7 @@ export function HomemakerCard({ homemaker }: { homemaker: Homemaker }) {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="col-span-3 bg-betel hover:bg-betel/95 text-paper font-semibold text-xs py-2.5 px-3 rounded-lg flex items-center justify-center gap-1.5 shadow-sm transition-all hover:shadow-md"
+            className="col-span-3 flex select-none items-center justify-center gap-1.5 rounded-lg bg-[#25D366] px-3 py-2.5 text-xs font-semibold text-white shadow-[0_5px_14px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#20BD5A] hover:shadow-[0_8px_18px_rgba(37,211,102,0.35)]"
           >
             {/* WhatsApp logo represented nicely with custom path */}
             <svg className="w-4 h-4 fill-current text-white" viewBox="0 0 24 24">

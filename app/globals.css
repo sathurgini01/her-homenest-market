@@ -1,10 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-  --color-ink: #163A3E;
+  --color-ink: #3B1F32;
   --color-turmeric: #E3A23C;
   --color-clay: #C1604A;
-  --color-betel: #41684B;
+  --color-betel: #75445F;
   --color-paper: #F7F2E7;
   --color-charcoal: #2B2622;
   
@@ -26,12 +26,12 @@ body {
 }
 
 .stitch {
-  border-bottom: 2px dashed #163A3E;
+  border-bottom: 2px dashed #3B1F32;
   opacity: 0.3;
 }
 
 .embroidered-badge {
-  border: 2px dashed #41684B;
+  border: 2px dashed #75445F;
   border-radius: 50%;
   padding: 4px;
   position: relative;
@@ -44,33 +44,69 @@ body {
   content: '';
   position: absolute;
   inset: -4px;
-  border: 1px solid #41684B;
+  border: 1px solid #75445F;
   border-radius: 50%;
   opacity: 0.5;
 }
 
 .card-tilt-1 {
   transform: rotate(-2deg);
+  animation: heroCardFloatLeft 5.2s ease-in-out infinite;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card-tilt-1:hover {
+  animation: none;
   transform: rotate(0deg) scale(1.03);
 }
 
 .card-tilt-2 {
   transform: rotate(1.5deg);
+  animation: heroCardFloatRight 5.8s ease-in-out 0.7s infinite;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card-tilt-2:hover {
+  animation: none;
   transform: rotate(0deg) scale(1.03);
 }
 
 .card-tilt-3 {
   transform: rotate(-1deg);
+  animation: heroCardFloatSoft 6.4s ease-in-out 1.2s infinite;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .card-tilt-3:hover {
+  animation: none;
   transform: rotate(0deg) scale(1.03);
+}
+
+@keyframes heroCardFloatLeft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-2deg);
+  }
+  50% {
+    transform: translate3d(4px, -13px, 0) rotate(0deg);
+  }
+}
+
+@keyframes heroCardFloatRight {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(1.5deg);
+  }
+  50% {
+    transform: translate3d(-5px, -11px, 0) rotate(-0.5deg);
+  }
+}
+
+@keyframes heroCardFloatSoft {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(-1deg);
+  }
+  50% {
+    transform: translate3d(3px, -9px, 0) rotate(1deg);
+  }
 }
 
 .hero-portrait-fade {
@@ -88,7 +124,7 @@ body {
     black 84%,
     transparent 100%
   );
-  filter: drop-shadow(0 28px 30px rgba(3, 20, 17, 0.32));
+  filter: drop-shadow(0 28px 30px rgba(28, 8, 23, 0.38));
 }
 
 .embroidered-edge {
@@ -107,4 +143,150 @@ body {
 .animate-stitch-draw {
   stroke-dasharray: 6, 4;
   animation: drawStitchLine 3s linear infinite;
+}
+
+@keyframes giftTicker {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes giftOrbit {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(24px, -18px, 0) scale(1.08);
+  }
+}
+
+@keyframes giftSparkle {
+  0%,
+  100% {
+    transform: rotate(-6deg) scale(1);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.18);
+  }
+  50% {
+    transform: rotate(6deg) scale(1.08);
+    box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+  }
+}
+
+@keyframes giftCardRise {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.gift-ticker-track {
+  animation: giftTicker 24s linear infinite;
+}
+
+.gift-ticker:hover .gift-ticker-track {
+  animation-play-state: paused;
+}
+
+.gift-orbit {
+  animation: giftOrbit 8s ease-in-out infinite;
+}
+
+.gift-orbit-delayed {
+  animation: giftOrbit 10s ease-in-out 1.5s infinite reverse;
+}
+
+.gift-sparkle {
+  animation: giftSparkle 2.6s ease-in-out infinite;
+}
+
+.gift-card {
+  animation: giftCardRise 0.7s ease-out both;
+}
+
+.gift-card:nth-child(2) {
+  animation-delay: 100ms;
+}
+
+.gift-card:nth-child(3) {
+  animation-delay: 180ms;
+}
+
+@keyframes howProgress {
+  from {
+    transform: translateX(-110%);
+  }
+  to {
+    transform: translateX(410%);
+  }
+}
+
+@keyframes howGlow {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: translateX(-50%) scale(0.92);
+  }
+  50% {
+    opacity: 0.85;
+    transform: translateX(-50%) scale(1.12);
+  }
+}
+
+@keyframes howStepIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.how-progress-beam {
+  animation: howProgress 4.5s ease-in-out infinite;
+}
+
+.how-glow {
+  animation: howGlow 7s ease-in-out infinite;
+}
+
+.how-step {
+  animation: howStepIn 0.65s ease-out both;
+}
+
+.how-step:nth-child(2) {
+  animation-delay: 120ms;
+}
+
+.how-step:nth-child(3) {
+  animation-delay: 240ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-tilt-1,
+  .card-tilt-2,
+  .card-tilt-3,
+  .gift-ticker-track,
+  .gift-orbit,
+  .gift-orbit-delayed,
+  .gift-sparkle,
+  .gift-card,
+  .how-progress-beam,
+  .how-glow,
+  .how-step {
+    animation: none;
+  }
+
+  .gift-card img {
+    transition: none;
+  }
 }

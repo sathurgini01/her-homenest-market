@@ -913,6 +913,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     area: "Wellawatte",
     bio: "Beautifully designed hand-crocheted bags, macramé clutches, and customized fabric accessories. Each piece is hand-looped and stitched using local organic cotton thread and natural coconut shells for buttons. Perfect for tropical days and sustainable lifestyle lovers.",
     photos: [
+      "/marketplace/animal-mini-bags.png",
       "https://images.unsplash.com/photo-1544816155-12df9643f363?w=600&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1590874103328-eac38a683ce7?w=600&auto=format&fit=crop&q=80"
     ],
@@ -924,6 +925,13 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     availableToday: true,
     whatsappNumber: "94770234567",
     listings: [
+      {
+        id: "l_11_4",
+        name: "Animal Mini Crossbody Bag",
+        description: "Playful hand-stitched mini bag with a zip closure, slim shoulder strap, and a choice of owl, bear, or panda-inspired colorways.",
+        price: 2400,
+        photo: "/marketplace/animal-mini-bags.png"
+      },
       {
         id: "l_11_1",
         name: "Tropical Coconut Shell Macramé Tote Bag",
@@ -1037,6 +1045,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     area: "Wellawatte",
     bio: "Handcrafted fabric flower clips and bridal hairpins. Lightweight, durable, and available in fresh-look fabric or satin finishes.",
     photos: [
+      "/marketplace/flower-hair-clips.png",
       "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=600&auto=format&fit=crop&q=80"
     ],
     rating: 4.8,
@@ -1052,14 +1061,14 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         name: "Set of 3 Fabric Flower Clips",
         description: "Soft fabric flowers sewn onto metal alligator clips. Great for everyday wear or festive looks.",
         price: 450,
-        photo: "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=600&auto=format&fit=crop&q=80"
+        photo: "/marketplace/flower-hair-clips.png"
       },
       {
         id: "l_26_2",
         name: "Bridal Jeweled Hairpin",
         description: "Hand-embedded crystals and pearls on a comb base for bridal hair styling.",
         price: 2200,
-        photo: "https://images.unsplash.com/photo-1506806732259-39c2d0268443?w=600&auto=format&fit=crop&q=80"
+        photo: "/marketplace/flower-hair-clips.png"
       }
     ],
     reviews: []
@@ -1072,6 +1081,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     area: "Mount Lavinia",
     bio: "Colorful hand-crocheted bags and clutches made with durable cotton yarn. Custom sizes and pastel palettes available.",
     photos: [
+      "/marketplace/crochet-handbags.png",
       "https://images.unsplash.com/photo-1519472354638-2f6e6c6f87a3?w=600&auto=format&fit=crop&q=80"
     ],
     rating: 4.7,
@@ -1087,7 +1097,14 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         name: "Crochet Sling Bag (Medium)",
         description: "Hand-crocheted sling bag with inner lining and button closure. Durable everyday companion.",
         price: 1800,
-        photo: "https://images.unsplash.com/photo-1519472354638-2f6e6c6f87a3?w=600&auto=format&fit=crop&q=80"
+        photo: "/marketplace/crochet-handbags.png"
+      },
+      {
+        id: "l_27_2",
+        name: "Crochet Tote & Clutch Collection",
+        description: "Choose a roomy granny-square tote or a compact lined clutch in warm terracotta, mustard, cream, and plum shades.",
+        price: 2600,
+        photo: "/marketplace/crochet-handbags.png"
       }
     ],
     reviews: []
@@ -1100,6 +1117,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     area: "Borella",
     bio: "Custom embroidered patches, handmade buttons, and unique brooches to personalize garments and bags.",
     photos: [
+      "/marketplace/floral-embroidery-hoop.png",
       "https://images.unsplash.com/photo-1549213783-8284d0336cbe?w=600&auto=format&fit=crop&q=80"
     ],
     rating: 4.8,
@@ -1115,7 +1133,14 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         name: "Custom Embroidered Patch (Small)",
         description: "Personalized patch for jackets, backpacks, or denim. Provide a name or small motif.",
         price: 450,
-        photo: "https://images.unsplash.com/photo-1549213783-8284d0336cbe?w=600&auto=format&fit=crop&q=80"
+        photo: "/marketplace/floral-embroidery-hoop.png"
+      },
+      {
+        id: "l_28_2",
+        name: "Wildflower Embroidery Hoop",
+        description: "Hand-stitched floral hoop artwork on ivory linen, personalized in your preferred coral, plum, mustard, and sage palette.",
+        price: 2800,
+        photo: "/marketplace/floral-embroidery-hoop.png"
       }
     ],
     reviews: []
@@ -1178,6 +1203,8 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
   }
 ];
 
+const CATALOG_IMAGE_REFRESH_IDS = new Set(["hm_11", "hm_26", "hm_27", "hm_28"]);
+
 const INITIAL_INQUIRIES: Inquiry[] = [
   {
     id: "inq_1",
@@ -1213,6 +1240,14 @@ export const getStoredHomemakers = (): Homemaker[] => {
     const parsed = JSON.parse(stored) as Homemaker[];
     return parsed.map((homemaker) => ({
       ...homemaker,
+      ...(CATALOG_IMAGE_REFRESH_IDS.has(homemaker.id)
+        ? (() => {
+            const refreshed = INITIAL_HOMEMAKERS.find((item) => item.id === homemaker.id);
+            return refreshed
+              ? { photos: refreshed.photos, listings: refreshed.listings }
+              : {};
+          })()
+        : {}),
       ownerEmail:
         homemaker.ownerEmail || (homemaker.id === "hm_1" ? "fatheema@homenest.lk" : undefined),
       category:

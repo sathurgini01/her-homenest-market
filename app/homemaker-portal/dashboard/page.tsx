@@ -608,7 +608,7 @@ export default function HomemakerDashboard() {
                           href={`https://wa.me/${inq.customerPhone.replace(/[^0-9]/g, "")}?text=Hello%20${inq.customerName},%20I%20am%20${homemaker.ownerFirstName}%20from%20"${encodeURIComponent(homemaker.businessName)}".%20I%20received%20your%20notice%20on%20Her%20HomeNest%20Market%20regarding:%20"${encodeURIComponent(inq.message.substring(0, 40))}..."`}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="bg-betel hover:bg-betel/90 text-white font-mono text-[10px] font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 transition-all text-center"
+                          className="flex select-none items-center gap-1.5 rounded-lg bg-[#25D366] px-3.5 py-1.5 text-center font-mono text-[10px] font-bold uppercase tracking-wider text-white shadow-[0_4px_12px_rgba(37,211,102,0.22)] transition-all hover:bg-[#20BD5A]"
                         >
                           💬 Send WhatsApp Reply
                         </a>

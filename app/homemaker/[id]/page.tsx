@@ -222,7 +222,7 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-betel hover:bg-betel/95 text-paper font-bold text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer"
+                  className="flex select-none cursor-pointer items-center justify-center gap-2 rounded-xl bg-[#25D366] px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-white shadow-[0_7px_18px_rgba(37,211,102,0.28)] transition-all hover:-translate-y-0.5 hover:bg-[#20BD5A] hover:shadow-[0_10px_24px_rgba(37,211,102,0.36)]"
                 >
                   <svg className="w-4.5 h-4.5 fill-current text-white" viewBox="0 0 24 24">
                     <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.5-5.739-1.446L0 24zm6.59-4.846c1.6.95 3.1 1.4 4.8 1.4 5.4 0 9.8-4.4 9.8-9.8s-4.4-9.8-9.8-9.8-9.8 4.4-9.8 9.8c0 1.8.5 3.5 1.4 4.9l-.9 3.2 3.3-.9z" />
@@ -315,7 +315,7 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
                         href={`https://wa.me/${homemaker.whatsappNumber}?text=Hello%20${homemaker.ownerFirstName},%20I%20saw%20your%20listing%20"${encodeURIComponent(item.name)}"%20(LKR%20${item.price})%20on%20Her%20HomeNest%20Market%20and%20would%20love%20to%20order/inquire%20about%20it!`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full bg-paper hover:bg-betel hover:text-white border border-ink/20 text-ink rounded-lg py-2 text-xs font-bold font-mono uppercase tracking-wider text-center flex items-center justify-center gap-1.5 transition-all cursor-pointer"
+                        className="flex w-full select-none cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-[#25D366]/40 bg-[#25D366]/10 py-2 text-center font-mono text-xs font-bold uppercase tracking-wider text-[#128C4A] transition-all hover:bg-[#25D366] hover:text-white"
                       >
                         🛍️ Order this Item
                       </a>
