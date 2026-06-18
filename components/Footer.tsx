@@ -8,10 +8,10 @@ export function Footer() {
   return (
     <footer className="bg-ink text-paper mt-16 border-t-4 border-turmeric">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 gap-8 md:grid-cols-5">
           
           {/* Brand Intro Column */}
-          <div className="md:col-span-2 space-y-4">
+          <div className="space-y-4 md:col-span-2">
             <h2 className="font-display text-2xl font-bold tracking-tight text-white">
               Her HomeNest Market
             </h2>
@@ -53,7 +53,19 @@ export function Footer() {
             </ul>
           </div>
 
-          {/* Colombo Neighhoods Info */}
+          <div>
+            <h3 className="mb-4 font-mono text-xs font-bold uppercase tracking-widest text-turmeric">
+              Categories
+            </h3>
+            <ul className="space-y-2 text-sm">
+              <li><Link href="/explore?category=Home-cooked%20Meals" className="text-paper/80 hover:text-turmeric">Home-cooked Meals</Link></li>
+              <li><Link href="/explore?category=Baking%20%26%20Desserts" className="text-paper/80 hover:text-turmeric">Baking &amp; Desserts</Link></li>
+              <li><Link href="/explore?category=Tailoring%20%26%20Alterations" className="text-paper/80 hover:text-turmeric">Tailoring &amp; Alterations</Link></li>
+              <li><Link href="/#categories" className="text-paper/80 hover:text-turmeric">View all categories</Link></li>
+            </ul>
+          </div>
+
+          {/* Colombo Neighbourhoods and social links */}
           <div>
             <h3 className="font-mono text-xs uppercase tracking-widest text-turmeric font-bold mb-4">
               Our Hub Neighborhoods
@@ -65,6 +77,9 @@ export function Footer() {
               <li>📍 Nugegoda &amp; Dehiwala</li>
               <li>📍 Maharagama &amp; Rajagiriya</li>
             </ul>
+            <p className="mt-5 font-mono text-[9px] uppercase tracking-wider text-paper/45">
+              Official social channels will be listed here after launch verification.
+            </p>
           </div>
 
         </div>
@@ -76,7 +91,7 @@ export function Footer() {
           <p>© 2026 Her HomeNest Market. Supporting local Colombo homemakers.</p>
           <div className="flex items-center gap-4">
             <span>Stitched with care in Sri Lanka 🇱🇰</span>
-            <span>✨ Empowher Initiative • MVP V1.0</span>
+            <span>Home skills. Local trust. Women-led growth.</span>
           </div>
         </div>
       </div>

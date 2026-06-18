@@ -73,6 +73,24 @@ body {
   transform: rotate(0deg) scale(1.03);
 }
 
+.hero-portrait-fade {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 5%,
+    black 84%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 5%,
+    black 84%,
+    transparent 100%
+  );
+  filter: drop-shadow(0 28px 30px rgba(3, 20, 17, 0.32));
+}
+
 .embroidered-edge {
   box-shadow: 0 0 0 2px #E3A23C, 0 0 0 4px #F7F2E7, 0 4px 6px -1px rgba(0, 0, 0, 0.1);
 }
@@ -90,4 +108,3 @@ body {
   stroke-dasharray: 6, 4;
   animation: drawStitchLine 3s linear infinite;
 }
-

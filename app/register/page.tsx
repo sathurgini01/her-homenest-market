@@ -18,8 +18,13 @@ export default function RegisterPage() {
 
   const handleRegisterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name.trim() || !email.trim() || !password.trim()) {
-      setErrorMsg("Please fill in your name, email credentials, and passwords.");
+    const cleanPhone = phone.replace(/[^0-9]/g, "");
+    if (!name.trim() || !email.trim() || password.length < 8) {
+      setErrorMsg("Enter your name, email and a password with at least 8 characters.");
+      return;
+    }
+    if (!/^94\d{9}$/.test(cleanPhone)) {
+      setErrorMsg("Enter a valid Sri Lankan mobile number using country code 94.");
       return;
     }
 
@@ -163,6 +168,11 @@ export default function RegisterPage() {
               {role === "Homemaker" ? "Create Account & Start Onboarding ➔" : "Complete Registration"}
             </button>
           </form>
+
+          <p className="rounded-lg bg-paper p-3 text-[10px] leading-relaxed text-charcoal/55">
+            Local prototype notice: registration data is stored only in this browser. A public launch
+            requires encrypted server-side accounts, email or phone verification and consent records.
+          </p>
 
           <p className="text-center text-xs text-charcoal/60 pt-2 font-sans">
             Already have an account?{" "}

@@ -3,8 +3,8 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getStoredHomemakers, saveHomemakers, CATEGORIES, COLOMBO_AREAS } from "@/lib/mock-data";
-import { Homemaker, Category, Review } from "@/lib/types";
+import { getActiveSession, getStoredHomemakers, saveHomemakers, CATEGORIES } from "@/lib/mock-data";
+import { Homemaker, Review } from "@/lib/types";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { StitchDivider } from "@/components/StitchDivider";
@@ -20,17 +20,18 @@ export default function AdminDashboard() {
   // Tab controller
   const [adminTab, setAdminTab] = useState<"snapshot" | "approvals" | "featured" | "categories" | "reviews">("snapshot");
   
-  // Category management input state
-  const [newCategoryName, setNewCategoryName] = useState("");
-
   useEffect(() => {
     // Sync state
     const handleSync = () => {
+      if (getActiveSession().role !== "Admin") {
+        router.replace("/login?next=/admin/dashboard");
+        return;
+      }
       setAllSellers(getStoredHomemakers());
       setCategoriesList(CATEGORIES);
     };
     setTimeout(handleSync, 0);
-  }, []);
+  }, [router]);
 
   // Recount statistics
   const totalVerifiedCount = allSellers.filter((h) => h.verified).length;
@@ -89,9 +90,15 @@ export default function AdminDashboard() {
   const handleDeleteReview = (homemakerId: string, reviewId: string) => {
     const updated = allSellers.map((s) => {
       if (s.id === homemakerId) {
+        const reviews = s.reviews.filter((r) => r.id !== reviewId);
+        const approved = reviews.filter((review) => review.status !== "pending");
         return {
           ...s,
-          reviews: s.reviews.filter((r) => r.id !== reviewId)
+          reviews,
+          reviewCount: approved.length,
+          rating: approved.length
+            ? Number((approved.reduce((sum, review) => sum + review.rating, 0) / approved.length).toFixed(1))
+            : 0,
         };
       }
       return s;
@@ -100,24 +107,24 @@ export default function AdminDashboard() {
     setAllSellers(updated);
   };
 
-  // Action: Add dynamic Category (FR-10)
-  const handleAddCategory = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!newCategoryName.trim()) return;
-    if (categoriesList.includes(newCategoryName.trim())) {
-      alert("This category structure already exists!");
-      return;
-    }
-    const updated = [newCategoryName.trim(), ...categoriesList];
-    setCategoriesList(updated);
-    // Note: Since CATEGORIES is static mock import, we append to page state.
-    // In actual database integration, Category is structured inside Postgres rows.
-    setNewCategoryName("");
-  };
-
-  // Action: Delete Category (FR-10)
-  const handleDeleteCategory = (catName: string) => {
-    setCategoriesList(categoriesList.filter((c) => c !== catName));
+  const handleApproveReview = (homemakerId: string, reviewId: string) => {
+    const updated = allSellers.map((seller) => {
+      if (seller.id !== homemakerId) return seller;
+      const reviews = seller.reviews.map((review) =>
+        review.id === reviewId ? { ...review, status: "approved" as const } : review
+      );
+      const approved = reviews.filter((review) => review.status !== "pending");
+      return {
+        ...seller,
+        reviews,
+        reviewCount: approved.length,
+        rating: approved.length
+          ? Number((approved.reduce((sum, review) => sum + review.rating, 0) / approved.length).toFixed(1))
+          : 0,
+      };
+    });
+    saveHomemakers(updated);
+    setAllSellers(updated);
   };
 
   return (
@@ -136,7 +143,7 @@ export default function AdminDashboard() {
             <p className="text-xs text-charcoal/50">Manage approvals, home seller features, custom categories, and check reviews.</p>
           </div>
           <span className="bg-clay text-white text-[10px] font-mono px-3 py-1 rounded font-bold uppercase">
-            SIMULATED Platform Boss Mode
+            Local administration preview
           </span>
         </div>
 
@@ -215,11 +222,10 @@ export default function AdminDashboard() {
               <p className="text-[10px] text-charcoal/50">Moderated and checked for spam triggers.</p>
             </div>
 
-            {/* Simulated instructions */}
             <div className="sm:col-span-4 bg-ink text-paper p-6 rounded-3xl border border-dashed border-turmeric/30">
-              <h3 className="font-display text-lg text-white font-medium mb-1.5">🛡️ Admin Simulation Sandbox Info</h3>
+              <h3 className="font-display text-lg text-white font-medium mb-1.5">🛡️ Local preview data</h3>
               <p className="text-xs text-paper/85 leading-relaxed font-sans">
-                This screen fully tests administrator workflows! For example, when you onboard a new seller and click <strong className="text-turmeric">Approve &amp; Publish</strong> under the approvals table, the brand&apos;s verified flag becomes active in local storage. You can instantly open the public <Link href="/explore" className="underline font-bold text-white hover:text-turmeric">Explore page</Link> to check how local filters update.
+                Approval and moderation changes currently persist in this browser only. A production launch requires server-side authentication, database storage, audit logs and protected admin APIs.
               </p>
             </div>
           </div>
@@ -340,13 +346,9 @@ export default function AdminDashboard() {
                           </button>
                         ) : (
                           <button
-                            onClick={() => {
-                              if (!seller.verified) {
-                                alert("You must approve a shop profile's verification status before making it featured!");
-                                return;
-                              }
-                              handleToggleFeatured(seller.id);
-                            }}
+                            onClick={() => seller.verified && handleToggleFeatured(seller.id)}
+                            disabled={!seller.verified}
+                            title={seller.verified ? "Feature this seller" : "Approve this profile before featuring it"}
                             className={`py-1 px-2.5 rounded font-mono text-[9px] uppercase font-bold transition-all cursor-pointer ${
                               seller.verified 
                                 ? "bg-turmeric text-ink hover:bg-turmeric/90 shadow-sm" 
@@ -367,51 +369,20 @@ export default function AdminDashboard() {
 
         {/* TAB 4: MANAGE CATEGORIES (FR-10) */}
         {adminTab === "categories" && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            
-            {/* Add form */}
-            <form onSubmit={handleAddCategory} className="lg:col-span-5 bg-white p-6 rounded-3xl border border-charcoal/15 shadow-sm space-y-4 font-sans text-xs">
-              <h3 className="font-display text-lg font-bold text-charcoal">Insert New Service Category</h3>
-              <p className="text-[11px] text-charcoal/50 leading-relaxed">Expand the catalog groups shown across Colombo filters (FR-10).</p>
-              
-              <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Category Label</label>
-                <input
-                  type="text"
-                  required
-                  placeholder="e.g. Organic Produce &amp; Honey"
-                  value={newCategoryName}
-                  onChange={(e) => setNewCategoryName(e.target.value)}
-                  className="w-full bg-paper/50 rounded-lg py-2 px-3 text-sm text-charcoal border border-charcoal/15 focus:outline-none focus:border-ink"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-ink hover:bg-ink/90 text-white font-bold text-xs uppercase tracking-wider py-3 rounded-lg transition-colors cursor-pointer text-center"
-              >
-                Insert Category
-              </button>
-            </form>
-
-            {/* List and deletes */}
-            <div className="lg:col-span-7 bg-white rounded-3xl border border-charcoal/15 overflow-hidden shadow-sm">
+          <div className="grid grid-cols-1 gap-8">
+            <div className="bg-white rounded-3xl border border-charcoal/15 overflow-hidden shadow-sm">
               <div className="p-6 border-b border-charcoal/5">
                 <h3 className="font-display text-xl font-bold text-ink">Platform Core Categories</h3>
-                <p className="text-xs text-charcoal/50 mt-0.5">Vetted list displayed under navigation bars and filter sheets (FR-10).</p>
+                <p className="text-xs text-charcoal/50 mt-0.5">
+                  Categories are code-managed in this prototype so filters, routes and TypeScript stay consistent.
+                </p>
               </div>
 
               <div className="p-4 space-y-2">
                 {categoriesList.map((catName) => (
                   <div key={catName} className="flex items-center justify-between p-3 bg-paper/40 border rounded-xl hover:bg-paper/60 transition-colors">
                     <span className="text-xs font-bold text-charcoal leading-none">📂 {catName}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleDeleteCategory(catName)}
-                      className="text-clay hover:underline font-mono text-[10px] font-bold uppercase transition-colors"
-                    >
-                      Delete
-                    </button>
+                    <span className="font-mono text-[9px] uppercase text-betel">Active</span>
                   </div>
                 ))}
               </div>
@@ -451,16 +422,26 @@ export default function AdminDashboard() {
                         <td className="p-4 text-sm font-semibold text-charcoal">{homemakerName}</td>
                         <td className="p-4 font-mono font-bold text-turmeric">⭐ {review.rating}</td>
                         <td className="p-4 text-right">
-                          <button
-                            onClick={() => {
-                              if (confirm(`Irreversibly delete review by "${review.customerName}"?`)) {
-                                handleDeleteReview(homemakerId, review.id);
-                              }
-                            }}
-                            className="bg-clay/10 text-clay hover:bg-clay hover:text-white border border-clay/20 font-bold font-mono text-[10px] uppercase tracking-wider py-1 px-2.5 rounded-lg transition-colors cursor-pointer"
-                          >
-                            Delete Review
-                          </button>
+                          <div className="flex justify-end gap-2">
+                            {review.status === "pending" && (
+                              <button
+                                onClick={() => handleApproveReview(homemakerId, review.id)}
+                                className="rounded-lg bg-betel px-2.5 py-1 font-mono text-[10px] font-bold uppercase text-white"
+                              >
+                                Approve
+                              </button>
+                            )}
+                            <button
+                              onClick={() => {
+                                if (confirm(`Delete review by "${review.customerName}"?`)) {
+                                  handleDeleteReview(homemakerId, review.id);
+                                }
+                              }}
+                              className="bg-clay/10 text-clay hover:bg-clay hover:text-white border border-clay/20 font-bold font-mono text-[10px] uppercase tracking-wider py-1 px-2.5 rounded-lg transition-colors cursor-pointer"
+                            >
+                              Delete
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     ))}

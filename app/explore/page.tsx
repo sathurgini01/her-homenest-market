@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { CATEGORIES, COLOMBO_AREAS, getStoredHomemakers } from "@/lib/mock-data";
+import { CATEGORIES, COLOMBO_AREAS, getPublicHomemakers } from "@/lib/mock-data";
 import { Homemaker } from "@/lib/types";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -36,7 +36,7 @@ function ExploreContent() {
   useEffect(() => {
     // Read from localStorage (dynamic reactive database)
     const handleSync = () => {
-      const stored = getStoredHomemakers();
+      const stored = getPublicHomemakers();
       setAllSellers(stored);
     };
     setTimeout(handleSync, 0);

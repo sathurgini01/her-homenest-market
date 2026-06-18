@@ -13,10 +13,10 @@ export default function ContactPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (name.trim() && email.trim() && message.trim()) {
+      const subject = encodeURIComponent(`Her HomeNest enquiry from ${name.trim()}`);
+      const body = encodeURIComponent(`${message.trim()}\n\nReply to: ${email.trim()}`);
+      window.location.href = `mailto:assist@herhomenest.lk?subject=${subject}&body=${body}`;
       setSuccess(true);
-      setName("");
-      setEmail("");
-      setMessage("");
       setTimeout(() => setSuccess(false), 4400);
     }
   };
@@ -81,7 +81,7 @@ export default function ContactPage() {
             
             {success && (
               <div className="bg-betel/15 border border-betel/20 text-betel text-xs p-3 rounded-lg font-mono">
-                🎉 Your message was sent successfully to Colombo operations! We will get back to you within 24 hours.
+                Your email app has been opened with this enquiry. Please press Send there to deliver it.
               </div>
             )}
 

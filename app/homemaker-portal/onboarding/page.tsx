@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { CATEGORIES, COLOMBO_AREAS, getStoredHomemakers, saveHomemakers } from "@/lib/mock-data";
-import { Homemaker } from "@/lib/types";
+import { CATEGORIES, COLOMBO_AREAS, getActiveSession, getStoredHomemakers, saveHomemakers, setActiveSession } from "@/lib/mock-data";
+import { Category, Homemaker } from "@/lib/types";
 
 export default function OnboardingPage() {
   const router = useRouter();
@@ -17,11 +17,23 @@ export default function OnboardingPage() {
   const [whatsapp, setWhatsapp] = useState("9477");
   const [startingPrice, setStartingPrice] = useState(1000);
   const [onboardingSuccess, setOnboardingSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (getActiveSession().role !== "Homemaker") {
+      router.replace("/register");
+    }
+  }, [router]);
 
   const handleSubmitOnboarding = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!businessName.trim() || !ownerName.trim() || !bio.trim() || !whatsapp.trim()) {
-      alert("Please configure all onboarding parameters.");
+    const cleanWhatsapp = whatsapp.replace(/[^0-9]/g, "");
+    if (!businessName.trim() || !ownerName.trim() || bio.trim().length < 60) {
+      setErrorMessage("Complete the business details and add a useful description of at least 60 characters.");
+      return;
+    }
+    if (!/^94\d{9}$/.test(cleanWhatsapp)) {
+      setErrorMessage("Enter a valid Sri Lankan WhatsApp number using country code 94.");
       return;
     }
 
@@ -30,28 +42,21 @@ export default function OnboardingPage() {
       id: `hm_${Date.now()}`,
       businessName: businessName.trim(),
       ownerFirstName: ownerName.trim(),
+      ownerEmail: getActiveSession().email || undefined,
       category: selectedCategory,
       area: selectedArea,
       bio: bio.trim(),
       photos: [
         "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80"
       ],
-      rating: 5.0,
+      rating: 0,
       reviewCount: 0,
       priceFrom: Number(startingPrice),
       verified: false, // Hidden until admin approval (FR-3)
       featured: false,
       availableToday: true,
-      whatsappNumber: whatsapp.replace(/[^0-9]/g, ""),
-      listings: [
-        {
-          id: `l_${Date.now()}_1`,
-          name: "Sample Signature Classic",
-          description: "A gorgeous initial highlight freshly tailored or prepared.",
-          price: Number(startingPrice),
-          photo: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=600&auto=format&fit=crop&q=80"
-        }
-      ],
+      whatsappNumber: cleanWhatsapp,
+      listings: [],
       reviews: []
     };
 
@@ -60,18 +65,17 @@ export default function OnboardingPage() {
     saveHomemakers(updatedList);
 
     // Update active session homemaker reference ID
+    const currentSession = getActiveSession();
+    setActiveSession({
+      role: "Homemaker",
+      email: currentSession.email,
+      homemakerId: newHomemaker.id,
+    });
     if (typeof window !== "undefined") {
-      localStorage.setItem(
-        "her_homenest_session",
-        JSON.stringify({
-          role: "Homemaker",
-          email: `${ownerName.toLowerCase().replace(/\s/g, "")}@homenest.lk`,
-          homemakerId: newHomemaker.id
-        })
-      );
       window.dispatchEvent(new Event("storage"));
     }
 
+    setErrorMessage("");
     setOnboardingSuccess(true);
     setTimeout(() => {
       router.push("/homemaker-portal/dashboard");
@@ -108,6 +112,11 @@ export default function OnboardingPage() {
             </div>
           ) : (
             <form onSubmit={handleSubmitOnboarding} className="space-y-4 font-sans text-xs">
+              {errorMessage && (
+                <div className="rounded-xl border border-clay/25 bg-clay/10 p-3 text-xs text-clay" role="alert">
+                  {errorMessage}
+                </div>
+              )}
               
               <div className="space-y-1">
                 <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Business Brand Name</label>
@@ -152,7 +161,7 @@ export default function OnboardingPage() {
                   <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Core Specialization</label>
                   <select
                     value={selectedCategory}
-                    onChange={(e) => setSelectedCategory(e.target.value as any)}
+                    onChange={(e) => setSelectedCategory(e.target.value as Category)}
                     className="w-full bg-paper/50 rounded-lg py-2.5 px-3 text-sm text-charcoal border border-charcoal/15 focus:outline-none focus:border-ink cursor-pointer"
                   >
                     {CATEGORIES.map((cat) => (

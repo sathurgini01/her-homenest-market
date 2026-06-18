@@ -2,12 +2,13 @@
 
 import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { getStoredHomemakers } from "@/lib/mock-data";
+import { getPublicHomemakers } from "@/lib/mock-data";
 import { Homemaker, Category } from "@/lib/types";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { StitchDivider } from "@/components/StitchDivider";
 import { HomemakerCard } from "@/components/HomemakerCard";
+import { CATEGORY_BY_SLUG, CATEGORY_DETAILS } from "@/lib/category-data";
 
 interface CategoryPageProps {
   params: Promise<{
@@ -15,67 +16,26 @@ interface CategoryPageProps {
   }>;
 }
 
-// Map slug to real category strings
-const slugToCategoryMap: Record<string, Category> = {
-  "home-cooked-meals": "Home-cooked Meals",
-  "baking-desserts": "Baking & Desserts",
-  "tailoring-alterations": "Tailoring & Alterations",
-  "handicrafts": "Handicrafts",
-  "beauty-at-home": "Beauty at Home",
-  "tuition-classes": "Tuition & Classes",
-  "accessories-bags": "Accessories & Bags"
-};
-
 export default function CategoryPage({ params }: CategoryPageProps) {
   const resolvedParams = use(params);
   const slug = resolvedParams.slug;
   
-  // Find mapped category
   const decodedSlug = decodeURIComponent(slug).toLowerCase();
-  
-  // Fallback direct match or reverse slug lookup
-  let categoryName: Category = "Home-cooked Meals";
-  
-  if (slugToCategoryMap[decodedSlug]) {
-    categoryName = slugToCategoryMap[decodedSlug];
-  } else {
-    // Try to match key directly in case it is capitalized or passed directly
-    const found = Object.values(slugToCategoryMap).find(
-      (v) => v.toLowerCase().replace(/[^a-z0-9]/g, "-") === decodedSlug || v.toLowerCase() === decodedSlug
-    );
-    if (found) categoryName = found;
-  }
+  const categoryDetail =
+    CATEGORY_BY_SLUG[decodedSlug] ||
+    CATEGORY_DETAILS.find((category) => category.name.toLowerCase() === decodedSlug) ||
+    CATEGORY_DETAILS[0];
+  const categoryName: Category = categoryDetail.name;
 
   const [sellers, setSellers] = useState<Homemaker[]>([]);
 
   useEffect(() => {
     const handleSync = () => {
-      const all = getStoredHomemakers();
+      const all = getPublicHomemakers();
       setSellers(all.filter((h) => h.category.toLowerCase() === categoryName.toLowerCase()));
     };
     setTimeout(handleSync, 0);
   }, [categoryName]);
-
-  const getCategoryTagline = (cat: Category) => {
-    switch (cat) {
-      case "Home-cooked Meals":
-        return "Traditional, wood-fired mains, rich biryanis, curries, and hopper feasts directly from their kitchen ovens.";
-      case "Baking & Desserts":
-        return "Decadent biscuit puddings, customized cupcakes, fudge brownies, and birthday celebrations baked with fresh butter.";
-      case "Tailoring & Alterations":
-        return "Perfect saree jacket patterns, day frocks, uniform alterations, and lace repairs with precise custom home-fitting.";
-      case "Handicrafts":
-        return "Hand-painted mandalas, woven rattan basket organizers, eco-friendly wedding covers, and cultural lamps.";
-      case "Beauty at Home":
-        return "Eyebrow threadings, mehendi hand cosmetics, fruit cleansing, and hair oils inside hygienic private home annexes.";
-      case "Tuition & Classes":
-        return "Retired schoolteacher cohorts, secondary numeracy coaching, phonetic spelling, and spoken english logs.";
-      case "Accessories & Bags":
-        return "Beautiful hand-crocheted sling bags, custom macramé totes, and quilted fabric pouches lovingly stitched by hand.";
-      default:
-        return "Supporting local women homemakers in their neighborhood hubs.";
-    }
-  };
 
   return (
     <div className="min-h-screen bg-paper flex flex-col">
@@ -102,8 +62,15 @@ export default function CategoryPage({ params }: CategoryPageProps) {
               {categoryName}
             </h1>
             <p className="text-sm sm:text-base text-paper/85 leading-relaxed max-w-xl font-sans">
-              {getCategoryTagline(categoryName)}
+              {categoryDetail.summary}
             </p>
+            <div className="flex flex-wrap gap-2 pt-2">
+              {categoryDetail.offerings.map((offering) => (
+                <span key={offering} className="rounded-full border border-white/15 bg-white/10 px-3 py-1 text-[10px] text-paper/80">
+                  {offering}
+                </span>
+              ))}
+            </div>
           </div>
           <div className="absolute right-[-20px] bottom-[-20px] w-64 h-64 rounded-full border border-dashed border-turmeric/10 pointer-events-none select-none"></div>
         </div>

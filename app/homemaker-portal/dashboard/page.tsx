@@ -2,9 +2,10 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { getStoredHomemakers, saveHomemakers, getStoredInquiries, saveInquiries, getActiveSession, CATEGORIES, COLOMBO_AREAS } from "@/lib/mock-data";
-import { Homemaker, Listing, Inquiry } from "@/lib/types";
+import { Homemaker, Listing, Inquiry, Category } from "@/lib/types";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { RatingStars } from "@/components/RatingStars";
@@ -15,7 +16,6 @@ export default function HomemakerDashboard() {
   const router = useRouter();
   
   // States
-  const [session, setSession] = useState<{ role: string | null; email: string | null; homemakerId?: string }>({ role: null, email: null });
   const [allSellers, setAllSellers] = useState<Homemaker[]>([]);
   const [homemaker, setHomemaker] = useState<Homemaker | null>(null);
   const [inquiries, setInquiries] = useState<Inquiry[]>([]);
@@ -38,12 +38,16 @@ export default function HomemakerDashboard() {
   const [editingArea, setEditingArea] = useState("");
   const [editingCategory, setEditingCategory] = useState("");
   const [profileSaveSuccess, setProfileSaveSuccess] = useState(false);
+  const [formError, setFormError] = useState("");
 
   useEffect(() => {
     const handleSync = () => {
       // Resolve Session
       const activeSes = getActiveSession();
-      setSession(activeSes);
+      if (activeSes.role !== "Homemaker" || !activeSes.homemakerId) {
+        router.replace("/login?next=/homemaker-portal/dashboard");
+        return;
+      }
 
       // Resolve master lists
       const sellersList = getStoredHomemakers();
@@ -52,9 +56,7 @@ export default function HomemakerDashboard() {
       // Filter inquiries
       const inquiriesList = getStoredInquiries();
       
-      // Resolve which Homemaker ID to bind to
-      // If not logged in as Homemaker, default to "hm_1" (Fatheema) for rich simulation
-      const activeId = activeSes.role === "Homemaker" && activeSes.homemakerId ? activeSes.homemakerId : "hm_1";
+      const activeId = activeSes.homemakerId;
       
       const bindedHomemaker = sellersList.find((h) => h.id === activeId);
       if (bindedHomemaker) {
@@ -68,10 +70,12 @@ export default function HomemakerDashboard() {
         setEditingWhatsapp(bindedHomemaker.whatsappNumber);
         setEditingArea(bindedHomemaker.area);
         setEditingCategory(bindedHomemaker.category);
+      } else {
+        router.replace("/homemaker-portal/onboarding");
       }
     };
     setTimeout(handleSync, 0);
-  }, []);
+  }, [router]);
 
   if (!homemaker) {
     return (
@@ -88,8 +92,13 @@ export default function HomemakerDashboard() {
   // Handle profile save
   const handleProfileSaveSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!editingBusinessName.trim() || !editingOwnerFirstName.trim() || !editingBio.trim()) {
-      alert("Please fill in basic description fields.");
+    const cleanWhatsapp = editingWhatsapp.replace(/[^0-9]/g, "");
+    if (!editingBusinessName.trim() || !editingOwnerFirstName.trim() || editingBio.trim().length < 40) {
+      setFormError("Add a business name, owner name and a useful description of at least 40 characters.");
+      return;
+    }
+    if (!/^94\d{9}$/.test(cleanWhatsapp)) {
+      setFormError("Enter a valid Sri Lankan WhatsApp number using country code 94.");
       return;
     }
 
@@ -98,15 +107,16 @@ export default function HomemakerDashboard() {
       businessName: editingBusinessName.trim(),
       ownerFirstName: editingOwnerFirstName.trim(),
       bio: editingBio.trim(),
-      whatsappNumber: editingWhatsapp.replace(/[^0-9]/g, ""),
+      whatsappNumber: cleanWhatsapp,
       area: editingArea,
-      category: editingCategory as any
+      category: editingCategory as Category
     };
 
     const updatedList = allSellers.map((s) => (s.id === homemaker.id ? updatedHomemaker : s));
     saveHomemakers(updatedList);
     setAllSellers(updatedList);
     setHomemaker(updatedHomemaker);
+    setFormError("");
     setProfileSaveSuccess(true);
     setTimeout(() => setProfileSaveSuccess(false), 3000);
   };
@@ -114,8 +124,16 @@ export default function HomemakerDashboard() {
   // Handle Add listing (FR-2)
   const handleAddListingSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newItemName.trim() || !newItemDesc.trim() || !newItemPrice.trim()) {
-      alert("Name, description, and price parameters are required.");
+    const price = Number(newItemPrice);
+    if (!newItemName.trim() || newItemDesc.trim().length < 20 || !Number.isFinite(price) || price < 100) {
+      setFormError("Add a listing name, a description of at least 20 characters, and a valid price of LKR 100 or more.");
+      return;
+    }
+    try {
+      const photoUrl = new URL(newItemPhoto);
+      if (photoUrl.protocol !== "https:") throw new Error();
+    } catch {
+      setFormError("Use a valid HTTPS image URL.");
       return;
     }
 
@@ -123,7 +141,7 @@ export default function HomemakerDashboard() {
       id: `l_${Date.now()}`,
       name: newItemName.trim(),
       description: newItemDesc.trim(),
-      price: Number(newItemPrice),
+      price,
       photo: newItemPhoto
     };
 
@@ -142,6 +160,7 @@ export default function HomemakerDashboard() {
     setNewItemName("");
     setNewItemDesc("");
     setNewItemPrice("");
+    setFormError("");
     setListingSuccess(true);
     setTimeout(() => setListingSuccess(false), 3000);
   };
@@ -171,7 +190,7 @@ export default function HomemakerDashboard() {
           <div className="space-y-1">
             <div className="flex items-center gap-2">
               <span className="font-mono text-xs text-clay font-bold uppercase tracking-wider block">Seller Workspace</span>
-              <span className="bg-turmeric/15 text-turmeric text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase">Simulation active</span>
+              <span className="bg-turmeric/15 text-turmeric text-[10px] font-mono px-2 py-0.5 rounded font-bold uppercase">Local preview</span>
             </div>
             <h1 className="font-display text-3xl font-bold text-ink flex items-center gap-2">
               Ayubowan, {homemaker.ownerFirstName}! 👋
@@ -183,7 +202,7 @@ export default function HomemakerDashboard() {
 
           <div className="flex items-center gap-3">
             <Link
-              href={`/homemaker/${homemaker.id}`}
+              href={homemaker.verified ? `/homemaker/${homemaker.id}` : `/homemaker/${homemaker.id}`}
               className="bg-paper hover:bg-ink hover:text-paper text-ink border border-ink/20 font-bold text-xs uppercase tracking-wider py-2.5 px-4 rounded-xl transition-all font-mono"
             >
               👁️ View Live Shop Page
@@ -225,6 +244,11 @@ export default function HomemakerDashboard() {
         )}
 
         {/* WORKSPACE SECTIONS MENU TABS */}
+        {formError && (
+          <div className="rounded-xl border border-clay/25 bg-clay/10 p-3 text-xs text-clay" role="alert">
+            {formError}
+          </div>
+        )}
         <div className="flex items-center gap-1 overflow-x-auto pb-2 border-b border-dashed border-charcoal/20 select-none">
           <button
             onClick={() => setActiveTab("snapshot")}
@@ -330,7 +354,7 @@ export default function HomemakerDashboard() {
           <div className="max-w-2xl bg-white p-6 rounded-3xl border border-charcoal/10 shadow-sm space-y-6">
             <div>
               <h3 className="font-display text-xl font-bold text-ink">Edit Shop &amp; Contact Details</h3>
-              <p className="text-xs text-charcoal/50 font-sans mt-0.5">Customize your name, location, category tagging, and WhatsApp contacts instantly.</p>
+              <p className="text-xs text-charcoal/50 font-sans mt-0.5">Update your public name, location, category and WhatsApp contact.</p>
             </div>
 
             {profileSaveSuccess && (
@@ -443,7 +467,7 @@ export default function HomemakerDashboard() {
 
                 {listingSuccess && (
                   <div className="bg-betel/15 border border-betel/20 text-betel text-xs p-2 rounded-lg font-mono">
-                    🎉 Listing Catalog Updated! Appended below in catalog instantly.
+                    Listing added to your catalog.
                   </div>
                 )}
 
@@ -481,7 +505,7 @@ export default function HomemakerDashboard() {
                     onChange={(e) => setNewItemPhoto(e.target.value)}
                     className="w-full bg-paper/50 rounded-lg py-2 px-3 text-xs text-charcoal border border-charcoal/15 focus:outline-none focus:border-ink font-mono"
                   />
-                  <span className="text-[10px] text-charcoal/40 block">Unsplash or picsum stock urls are permitted.</span>
+                  <span className="text-[10px] text-charcoal/40 block">Use a public HTTPS image URL. Production should use authenticated uploads.</span>
                 </div>
 
                 <div className="space-y-1.5">
@@ -513,7 +537,13 @@ export default function HomemakerDashboard() {
                     {homemaker.listings.map((item) => (
                       <div key={item.id} className="bg-white border rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between">
                         <div className="aspect-video w-full bg-charcoal/5 relative">
-                          <img src={item.photo} alt={item.name} className="object-cover w-full h-full" />
+                          <Image
+                            src={item.photo}
+                            alt={item.name}
+                            fill
+                            sizes="(max-width: 640px) 100vw, 50vw"
+                            className="object-cover"
+                          />
                           <span className="absolute top-2 right-2 bg-paper text-ink text-[10px] font-mono font-bold px-2 py-0.5 rounded shadow">
                             LKR {item.price.toLocaleString()}
                           </span>
@@ -593,7 +623,9 @@ export default function HomemakerDashboard() {
             ) : (
               <div className="bg-white p-12 rounded-3xl text-center border border-dashed border-charcoal/15 max-w-md mx-auto">
                 <span className="text-2xl block mb-1">📬</span>
-                <p className="text-xs text-charcoal/50 font-sans">No WhatsApp customer notices received yet during this simulation run. Share your public profile to trigger contacts!</p>
+                <p className="text-xs text-charcoal/50 font-sans">
+                  No platform enquiries are available. Direct WhatsApp conversations remain private and are not imported into this dashboard.
+                </p>
               </div>
             )}
           </div>

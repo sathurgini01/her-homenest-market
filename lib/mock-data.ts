@@ -1,18 +1,7 @@
-import { Homemaker, Category, Listing, Review, Inquiry } from "./types";
+import { Homemaker, Category, Inquiry } from "./types";
+import { CATEGORY_DETAILS } from "./category-data";
 
-export const CATEGORIES: Category[] = [
-  "Home-cooked Meals",
-  "Baking & Desserts",
-  "Tailoring & Alterations",
-  "Handicrafts",
-  "Beauty at Home",
-  "Tuition & Classes",
-  "Jewelry",
-  "Hair Accessories",
-  "Bags & Pouches",
-  "Fashion Add-ons",
-  "Home-to-Wear Crossover"
-];
+export const CATEGORIES: Category[] = CATEGORY_DETAILS.map((category) => category.name);
 
 export const COLOMBO_AREAS = [
   "Wellawatte",
@@ -32,6 +21,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     id: "hm_1",
     businessName: "Aunty Fatheema's Biryani & Rice",
     ownerFirstName: "Fatheema",
+    ownerEmail: "fatheema@homenest.lk",
     category: "Home-cooked Meals",
     area: "Wellawatte",
     bio: "Bringing the authentic flavors of Colombo Moorish cuisine directly to your dining table. I specialize in traditional wood-fired chicken biryani, ghee rice with beef curry, and handmade watalappam. Every single spice is hand-roasted and ground in my own kitchen.",
@@ -919,7 +909,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     id: "hm_11",
     businessName: "Dilhara's Hook & Loop Atelier",
     ownerFirstName: "Dilhara",
-    category: "Accessories & Bags",
+    category: "Bags & Pouches",
     area: "Wellawatte",
     bio: "Beautifully designed hand-crocheted bags, macramé clutches, and customized fabric accessories. Each piece is hand-looped and stitched using local organic cotton thread and natural coconut shells for buttons. Perfect for tropical days and sustainable lifestyle lovers.",
     photos: [
@@ -970,7 +960,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     id: "hm_24",
     businessName: "Yasmin's Woven Baskets",
     ownerFirstName: "Yasmin",
-    category: "Accessories & Bags",
+    category: "Bags & Pouches",
     area: "Dehiwala",
     bio: "Hand-woven wicker and palm baskets for storage, decoration, and gifting. Eco-friendly and sturdy designs perfect for Colombo homes.",
     photos: [
@@ -1220,7 +1210,16 @@ export const getStoredHomemakers = (): Homemaker[] => {
     return INITIAL_HOMEMAKERS;
   }
   try {
-    return JSON.parse(stored);
+    const parsed = JSON.parse(stored) as Homemaker[];
+    return parsed.map((homemaker) => ({
+      ...homemaker,
+      ownerEmail:
+        homemaker.ownerEmail || (homemaker.id === "hm_1" ? "fatheema@homenest.lk" : undefined),
+      category:
+        homemaker.category === ("Accessories & Bags" as Category)
+          ? "Bags & Pouches"
+          : homemaker.category,
+    }));
   } catch (e) {
     return INITIAL_HOMEMAKERS;
   }
@@ -1231,6 +1230,14 @@ export const saveHomemakers = (homemakers: Homemaker[]) => {
     localStorage.setItem("her_homenest_homemakers", JSON.stringify(homemakers));
   }
 };
+
+export const getPublicHomemakers = (): Homemaker[] =>
+  getStoredHomemakers()
+    .filter((homemaker) => homemaker.verified)
+    .map((homemaker) => ({
+      ...homemaker,
+      reviews: homemaker.reviews.filter((review) => review.status !== "pending"),
+    }));
 
 export const getStoredInquiries = (): Inquiry[] => {
   if (typeof window === "undefined") {
@@ -1267,10 +1274,7 @@ export const getActiveSession = (): UserSession => {
   }
   const stored = localStorage.getItem("her_homenest_session");
   if (!stored) {
-    // Default mock, so it is easy to demonstrate
-    const defaultSession: UserSession = { role: "Customer", email: "customer@homenest.lk" };
-    localStorage.setItem("her_homenest_session", JSON.stringify(defaultSession));
-    return defaultSession;
+    return { role: null, email: null };
   }
   try {
     return JSON.parse(stored);

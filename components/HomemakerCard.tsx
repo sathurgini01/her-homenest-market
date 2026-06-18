@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Homemaker } from "@/lib/types";
 import { VerifiedBadge } from "./VerifiedBadge";
 import { RatingStars } from "./RatingStars";
@@ -16,11 +17,12 @@ export function HomemakerCard({ homemaker }: { homemaker: Homemaker }) {
     <div className="bg-white rounded-2xl border-2 border-charcoal/5 overflow-hidden shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 flex flex-col group h-full">
       {/* Photo header with overlay badge */}
       <div className="relative aspect-video w-full overflow-hidden bg-charcoal/10">
-        <img
+        <Image
           src={primaryPhoto}
           alt={homemaker.businessName}
-          className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
         
         {/* Category Overlay Tag */}

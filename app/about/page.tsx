@@ -2,6 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { StitchDivider } from "@/components/StitchDivider";
@@ -44,17 +45,21 @@ export default function AboutPage() {
             
             <div className="relative h-64 bg-paper rounded-2xl overflow-hidden border border-charcoal/10 flex items-center justify-center select-none pointer-events-none">
               <div className="absolute top-6 left-6 rotate-[-4deg] w-48 bg-white p-2 rounded-lg shadow-md border border-charcoal/5 pointer-events-auto">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=200&auto=format&fit=crop&q=80"
                   alt="Tailoring"
+                  width={200}
+                  height={96}
                   className="rounded object-cover h-24 w-full"
                 />
                 <p className="text-[9px] font-mono text-charcoal/40 text-center mt-1">Stitching Hope • Nugegoda</p>
               </div>
               <div className="absolute bottom-6 right-6 rotate-[3deg] w-44 bg-white p-2 rounded-lg shadow-lg border border-charcoal/5 pointer-events-auto">
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?w=200&auto=format&fit=crop&q=80"
                   alt="Healthy food"
+                  width={200}
+                  height={80}
                   className="rounded object-cover h-20 w-full"
                 />
                 <p className="text-[9px] font-mono text-charcoal/40 text-center mt-1">Sri Lankan Spices • Wellawatte</p>

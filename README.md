@@ -1,20 +1,57 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
-</div>
+# Her HomeNest Market
 
-# Run and deploy your AI Studio app
+A Colombo-focused marketplace interface connecting customers with women-led home businesses across food, baking, tailoring, crafts, beauty and tuition.
 
-This contains everything you need to run your app locally.
+## Current implementation
 
-View your app in AI Studio: https://ai.studio/apps/f879ecb1-cf78-485a-939b-60de4c90bebb
+This repository is a polished front-end prototype built with Next.js 15, React 19, TypeScript and Tailwind CSS. It includes:
 
-## Run Locally
+- Customer search, category and area filters
+- Verified-only public seller discovery
+- Seller profiles, listings and WhatsApp contact links
+- Homemaker onboarding and local dashboard workflows
+- Admin approval, featuring and review moderation workflows
+- Pending-review moderation before public display
+- Responsive layouts and accessible navigation
 
-**Prerequisites:**  Node.js
+## Important production boundary
 
+Data and sessions currently use browser `localStorage`. This is suitable for product demonstrations and usability testing, but it is not secure multi-user infrastructure.
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+Before a public launch, replace the local store with:
+
+- Server-side authentication with email/phone verification and password recovery
+- Role-based authorization enforced by protected server routes
+- A production database with migrations, backups and audit logs
+- Secure image uploads and moderation
+- Verified-order review eligibility
+- Real enquiry/contact delivery and notification services
+- Consent, privacy, terms, retention and account-deletion workflows
+- Rate limiting, abuse reporting, CSRF protection and security monitoring
+- Admin verification evidence stored privately with access controls
+
+Do not collect NIC/passport documents or accept real customer payments through the current prototype.
+
+## Run locally
+
+```bash
+npm install
+npm run dev
+```
+
+Open `http://localhost:3000`.
+
+## Verification
+
+```bash
+npm run lint
+npx tsc --noEmit
+npm run build
+```
+
+## Local preview accounts
+
+- Homemaker email: `fatheema@homenest.lk`
+- Admin email: `admin@herhomenest.lk`
+
+Passwords are only checked for minimum length in this prototype. They are not authenticated or stored. Production authentication must be implemented before deployment.

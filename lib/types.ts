@@ -5,7 +5,11 @@ export type Category =
   | "Handicrafts"
   | "Beauty at Home"
   | "Tuition & Classes"
-  | "Accessories & Bags";
+  | "Jewelry"
+  | "Hair Accessories"
+  | "Bags & Pouches"
+  | "Fashion Add-ons"
+  | "Home-to-Wear Crossover";
 
 export interface Listing {
   id: string;
@@ -21,12 +25,14 @@ export interface Review {
   rating: number;
   comment: string;
   date: string;
+  status?: "pending" | "approved";
 }
 
 export interface Homemaker {
   id: string;
   businessName: string;
   ownerFirstName: string;
+  ownerEmail?: string;
   category: Category;
   area: string;            // e.g. "Wellawatte", "Nugegoda"
   bio: string;

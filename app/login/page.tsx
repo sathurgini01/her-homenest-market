@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { setActiveSession } from "@/lib/mock-data";
+import { getStoredHomemakers, setActiveSession } from "@/lib/mock-data";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -16,16 +16,30 @@ export default function LoginPage() {
 
   const handleLoginSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      setErrorMsg("Please provide your email address and credentials.");
+    if (!email.trim() || password.length < 8) {
+      setErrorMsg("Enter a valid email and a password with at least 8 characters.");
       return;
     }
 
-    // Set simulator user session
+    const normalizedEmail = email.toLowerCase().trim();
+    const matchedHomemaker =
+      role === "Homemaker"
+        ? getStoredHomemakers().find((homemaker) => homemaker.ownerEmail === normalizedEmail)
+        : undefined;
+
+    if (role === "Homemaker" && !matchedHomemaker) {
+      setErrorMsg("No homemaker account is linked to that email in this local preview.");
+      return;
+    }
+    if (role === "Admin" && normalizedEmail !== "admin@herhomenest.lk") {
+      setErrorMsg("Use the configured admin preview email.");
+      return;
+    }
+
     setActiveSession({
       role: role,
-      email: email.toLowerCase().trim(),
-      homemakerId: role === "Homemaker" ? "hm_1" : undefined
+      email: normalizedEmail,
+      homemakerId: matchedHomemaker?.id,
     });
 
     // Notify other components if any
@@ -112,7 +126,7 @@ export default function LoginPage() {
 
             </div>
 
-            {/* Hidden admin trigger for simulation */}
+            {/* Local admin workflow preview; production access must be server protected */}
             <div className="text-center">
               <button
                 type="button"
@@ -122,7 +136,7 @@ export default function LoginPage() {
                 }}
                 className="text-[9px] font-mono text-charcoal/30 hover:text-clay hover:underline bg-transparent"
               >
-                🛠️ Admin Simulator Entrance
+                Admin preview
               </button>
             </div>
           </div>
@@ -144,7 +158,7 @@ export default function LoginPage() {
             <div className="space-y-1">
               <div className="flex justify-between items-center">
                 <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Password</label>
-                <a href="#" className="text-[10px] text-clay hover:underline font-mono">Forgot?</a>
+                <span className="text-[10px] text-charcoal/40 font-mono">Minimum 8 characters</span>
               </div>
               <input
                 type="password"
@@ -163,6 +177,11 @@ export default function LoginPage() {
               Enter My Dashboard
             </button>
           </form>
+
+          <p className="rounded-lg bg-paper p-3 text-[10px] leading-relaxed text-charcoal/55">
+            Local prototype notice: this demonstrates role-based flows but does not provide production
+            authentication. Real accounts require a secure server-side identity provider.
+          </p>
 
           <p className="text-center text-xs text-charcoal/60 pt-2 font-sans">
             Don&apos;t have a business listing yet?{" "}

@@ -2,7 +2,8 @@
 
 import React, { use, useState, useEffect } from "react";
 import Link from "next/link";
-import { getStoredHomemakers, saveHomemakers } from "@/lib/mock-data";
+import Image from "next/image";
+import { getActiveSession, getStoredHomemakers, saveHomemakers } from "@/lib/mock-data";
 import { Homemaker, Review } from "@/lib/types";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -22,6 +23,8 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
 
   const [sellers, setSellers] = useState<Homemaker[]>([]);
   const [homemaker, setHomemaker] = useState<Homemaker | null>(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [shareMessage, setShareMessage] = useState("");
 
   // Review Form States
   const [reviewName, setReviewName] = useState("");
@@ -35,21 +38,32 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
       const list = getStoredHomemakers();
       setSellers(list);
       const found = list.find((h) => h.id === id);
-      if (found) {
+      const session = getActiveSession();
+      const canPreview =
+        session.role === "Admin" ||
+        (session.role === "Homemaker" && session.homemakerId === found?.id);
+      if (found?.verified || (found && canPreview)) {
         setHomemaker(found);
       }
+      setIsLoaded(true);
     };
     setTimeout(handleSync, 0);
   }, [id]);
 
-  if (!homemaker) {
+  if (!isLoaded || !homemaker) {
     return (
       <div className="min-h-screen bg-paper flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center py-24 text-center">
-          <span className="text-4xl">🏜️</span>
-          <h2 className="font-display text-2xl font-bold text-charcoal mt-2">Homemaker Shop Not Found</h2>
-          <p className="text-xs text-charcoal/50 mt-1 mb-4">The dynamic shop link might be custom or outdated.</p>
+          <span className="text-4xl">{isLoaded ? "🏜️" : "⏳"}</span>
+          <h2 className="font-display text-2xl font-bold text-charcoal mt-2">
+            {isLoaded ? "Homemaker Shop Not Available" : "Loading shop…"}
+          </h2>
+          {isLoaded && (
+            <p className="text-xs text-charcoal/50 mt-1 mb-4">
+              This profile may be awaiting verification, suspended, or no longer available.
+            </p>
+          )}
           <Link href="/explore" className="bg-ink text-paper px-4 py-2 rounded-lg text-xs font-bold uppercase font-mono tracking-wider">
             Explore All Shops
           </Link>
@@ -60,8 +74,14 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
   }
 
   // Pre-filled WhatsApp and Call Actions
-  const whatsappUrl = `https://wa.me/${homemaker.whatsappNumber}?text=Hello%20${homemaker.ownerFirstName},%2520I%2520saw%2520your%2520shop%2520"${encodeURIComponent(homemaker.businessName)}"%2520on%2520Her%2520HomeNest%2520Market%2520and%2520would%2520like%2520to%2520inquire%2520about%2520your%2520menu%2520/%2520offerings!`;
+  const whatsappMessage = `Hello ${homemaker.ownerFirstName}, I saw your shop "${homemaker.businessName}" on Her HomeNest Market and would like to inquire about your offerings.`;
+  const whatsappUrl = `https://wa.me/${homemaker.whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}`;
   const callUrl = `tel:${homemaker.whatsappNumber}`;
+  const approvedReviews = homemaker.reviews.filter((review) => review.status !== "pending");
+  const ratingCounts = [5, 4, 3, 2, 1].map((rating) => ({
+    rating,
+    count: approvedReviews.filter((review) => Math.round(review.rating) === rating).length,
+  }));
 
   // Interactive review submit handler
   const handleReviewSubmit = (e: React.FormEvent) => {
@@ -76,19 +96,15 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
       customerName: reviewName.trim(),
       rating: reviewRating,
       comment: reviewComment.trim(),
-      date: new Date().toISOString().split("T")[0]
+      date: new Date().toISOString().split("T")[0],
+      status: "pending",
     };
 
-    // Calculate new ratings
     const updatedReviews = [newReview, ...homemaker.reviews];
-    const totalRatingSum = updatedReviews.reduce((sum, r) => sum + r.rating, 0);
-    const newAverage = Number((totalRatingSum / updatedReviews.length).toFixed(1));
 
     const updatedHomemaker: Homemaker = {
       ...homemaker,
       reviews: updatedReviews,
-      rating: newAverage,
-      reviewCount: updatedReviews.length
     };
 
     // Save in master list
@@ -130,21 +146,25 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
             
             {/* Gallery Column */}
             <div className="lg:col-span-5 relative">
-              <div className="aspect-[4/3] rounded-2xl overflow-hidden bg-charcoal/10 border border-charcoal/5 shadow-md">
-                <img
+              <div className="relative aspect-[4/3] rounded-2xl overflow-hidden bg-charcoal/10 border border-charcoal/5 shadow-md">
+                <Image
                   src={homemaker.photos[0] || "https://picsum.photos/seed/shop/600/450"}
                   alt={homemaker.businessName}
-                  className="object-cover w-full h-full"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+                  className="object-cover"
                 />
               </div>
 
               {/* Overlapping secondary thumbnail if exists */}
               {homemaker.photos[1] && (
                 <div className="absolute right-[-20px] bottom-[-20px] w-36 h-28 hidden sm:block rounded-xl overflow-hidden border-4 border-white shadow-xl rotate-3">
-                  <img
+                  <Image
                     src={homemaker.photos[1]}
                     alt="Secondary view"
-                    className="object-cover w-full h-full"
+                    fill
+                    sizes="144px"
+                    className="object-cover"
                   />
                 </div>
               )}
@@ -220,14 +240,22 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
 
                 {/* SHARE INFO */}
                 <button
-                  onClick={() => {
-                    navigator.clipboard.writeText(window.location.href);
-                    alert("Shop link copied! Share it over social channels to support Kumari & Fatheema.");
+                  onClick={async () => {
+                    try {
+                      await navigator.clipboard.writeText(window.location.href);
+                      setShareMessage("Shop link copied");
+                    } catch {
+                      setShareMessage("Copy failed — use your browser address bar");
+                    }
+                    setTimeout(() => setShareMessage(""), 2500);
                   }}
                   className="bg-paper text-charcoal/70 hover:bg-paper/80 font-semibold text-xs py-3.5 px-4 rounded-xl border border-charcoal/15 transition-all text-center"
                 >
                   🔗 Share Shop
                 </button>
+                <span className="self-center text-[10px] text-charcoal/55" aria-live="polite">
+                  {shareMessage}
+                </span>
 
               </div>
               
@@ -258,12 +286,13 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
                   key={item.id}
                   className="bg-white rounded-2xl border border-charcoal/10 overflow-hidden shadow-sm flex flex-col hover:border-turmeric/60 transition-colors"
                 >
-                  <div className="aspect-video w-full overflow-hidden bg-charcoal/5">
-                    <img
+                  <div className="relative aspect-video w-full overflow-hidden bg-charcoal/5">
+                    <Image
                       src={item.photo || "https://picsum.photos/seed/serving/400/250"}
                       alt={item.name}
-                      className="object-cover w-full h-full"
-                      loading="lazy"
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover"
                     />
                   </div>
                   <div className="p-5 flex-1 flex flex-col justify-between">
@@ -321,24 +350,25 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
               <div className="text-center space-y-1">
                 <span className="font-mono text-4xl sm:text-5xl font-extrabold text-ink block">{homemaker.rating}</span>
                 <RatingStars rating={homemaker.rating} size={4} />
-                <span className="font-mono text-[9px] uppercase tracking-wider text-charcoal/40 block">Based on {homemaker.reviews.length} reviews</span>
+                <span className="font-mono text-[9px] uppercase tracking-wider text-charcoal/40 block">Based on {approvedReviews.length} approved reviews</span>
               </div>
               <div className="flex-1 space-y-1">
-                <div className="text-xs text-charcoal/70 font-mono space-y-1">
-                  <p>⭐️⭐️⭐️⭐️⭐️ (Excellent: 92%)</p>
-                  <p>⭐️⭐️⭐️⭐️☆ (Good: 8%)</p>
-                  <p>⭐️⭐️☆☆☆ (Fair: 0%)</p>
-                </div>
+                {ratingCounts.map(({ rating, count }) => (
+                  <div key={rating} className="flex items-center justify-between text-[10px] text-charcoal/65">
+                    <span>{rating} star</span>
+                    <span>{count}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Leave a review Form */}
             <form onSubmit={handleReviewSubmit} className="bg-white p-6 rounded-2xl border border-charcoal/10 shadow-sm space-y-4">
               <h3 className="font-display text-lg font-bold text-charcoal">
-                Leave a Verified Review
+                Leave a Review
               </h3>
               <p className="text-[11px] text-charcoal/50 leading-relaxed font-sans">
-                Review submissions require local Colombo tracking to avoid plagiarism or fake reviews. Let us know your real experience!
+                Reviews are held for admin moderation before appearing publicly. Please share only a genuine customer experience.
               </p>
 
               {errorMessage && (
@@ -349,7 +379,7 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
 
               {reviewSubmitted && (
                 <div className="bg-betel/10 border border-betel/20 text-betel text-xs p-3 rounded-lg font-mono">
-                  🎉 Review Submitted! Average stars recalculated instantly. Thank you!
+                  Review submitted for moderation. Thank you.
                 </div>
               )}
 
@@ -408,9 +438,9 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
               Homemaker Guestbook &amp; Feedback
             </h3>
 
-            {homemaker.reviews.length > 0 ? (
+            {approvedReviews.length > 0 ? (
               <div className="space-y-4 max-h-[640px] overflow-y-auto pr-2">
-                {homemaker.reviews.map((rev) => (
+                {approvedReviews.map((rev) => (
                   <div key={rev.id} className="bg-white p-5 rounded-2xl border border-charcoal/5 shadow-sm space-y-2.5">
                     <div className="flex items-center justify-between gap-4">
                       <div>
@@ -422,17 +452,16 @@ export default function HomemakerProfilePage({ params }: HomemakerProfileProps) 
                     <p className="text-xs text-charcoal/75 italic leading-relaxed font-sans">
                       &quot;{rev.comment}&quot;
                     </p>
-                    <div className="flex items-center gap-1">
-                      <span className="text-[10px] text-betel">✓</span>
-                      <span className="text-[8px] font-mono text-betel uppercase font-bold tracking-wider">Verified Colombo Neighbor</span>
-                    </div>
+                    <span className="text-[8px] font-mono text-charcoal/45 uppercase font-bold tracking-wider">
+                      Moderated customer review
+                    </span>
                   </div>
                 ))}
               </div>
             ) : (
               <div className="bg-white p-8 rounded-2xl text-center border border-dashed border-charcoal/10">
                 <span className="text-2xl block mb-2">🎁</span>
-                <p className="text-xs text-charcoal/50">Be the first to leave a warm review on Kumari&apos;s or Sabeetha&apos;s shop profile page!</p>
+                <p className="text-xs text-charcoal/50">Be the first to share a genuine experience with this homemaker.</p>
               </div>
             )}
           </div>
