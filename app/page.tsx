@@ -45,7 +45,16 @@ export default function HomePage() {
       <Navbar />
 
       {/* SPECIAL CURATED HERO — EXCLUSIVE MOSAIC OVERLAPS WITH STITCH CORE */}
-      <section className="bg-gradient-to-b from-paper/60 via-white to-paper/20 text-ink relative pt-16 pb-24 overflow-hidden border-b border-charcoal/10">
+      <section
+        className="text-ink relative pt-16 pb-24 overflow-hidden border-b border-charcoal/10"
+        style={{
+          backgroundImage: "url('/hero-bg.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Dark overlay to keep text readable over the screenshot */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-white/10 to-paper/20 pointer-events-none" />
         
         {/* Soft elegant ambient background glowing shadows */}
         <div className="absolute top-10 -left-16 w-96 h-96 rounded-full bg-turmeric/10 blur-[100px] select-none pointer-events-none z-0" />
