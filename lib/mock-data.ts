@@ -84,7 +84,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     area: "Nugegoda",
     bio: "Expert in Sri Lankan short eats and kottu roti. Handmade kottu from scratch daily with tender chicken, vegetables, and roasted curry powder. Also doing devilled dishes and cutlets for office lunch boxes.",
     photos: [
-      "https://images.unsplash.com/photo-1604482827473-30ac08a91e27?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1603046891726-36bfd957e2af?w=600&auto=format&fit=crop&q=80"
     ],
     rating: 4.7,
@@ -100,7 +100,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         name: "Chicken Kottu Roti (Single)",
         description: "Handmade roti chopped and mixed with tender chicken, cabbage, carrots, and roasted curry powder. Served with light curry sauce.",
         price: 580,
-        photo: "https://images.unsplash.com/photo-1604482827473-30ac08a91e27?w=600&auto=format&fit=crop&q=80"
+        photo: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"
       },
       {
         id: "l_12_2",
@@ -171,7 +171,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
     area: "Dehiwala",
     bio: "Specialized in making fresh string hoppers (idiyappam) and puttu every morning. Served with rich coconut curry, chickpea curry, or jaggery-palm sugar sauce. Perfect breakfast delivery!",
     photos: [
-      "https://images.unsplash.com/photo-1585521537684-38d840651ef7?w=600&auto=format&fit=crop&q=80",
+      "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&auto=format&fit=crop&q=80",
       "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=600&auto=format&fit=crop&q=80"
     ],
     rating: 4.9,
@@ -187,7 +187,7 @@ const INITIAL_HOMEMAKERS: Homemaker[] = [
         name: "Fresh String Hoppers with Chickpea Curry",
         description: "Steamed rice and wheat string hoppers served with aromatic chickpea curry and spiced onions.",
         price: 350,
-        photo: "https://images.unsplash.com/photo-1585521537684-38d840651ef7?w=600&auto=format&fit=crop&q=80"
+        photo: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=600&auto=format&fit=crop&q=80"
       },
       {
         id: "l_14_2",
@@ -1307,30 +1307,5 @@ export const saveInquiries = (inquiries: Inquiry[]) => {
   }
 };
 
-// Simple active user sessions for roles
-export interface UserSession {
-  role: "Customer" | "Homemaker" | "Admin" | null;
-  email: string | null;
-  homemakerId?: string; // If registered/logged in as Homemaker
-}
-
-export const getActiveSession = (): UserSession => {
-  if (typeof window === "undefined") {
-    return { role: null, email: null };
-  }
-  const stored = localStorage.getItem("her_homenest_session");
-  if (!stored) {
-    return { role: null, email: null };
-  }
-  try {
-    return JSON.parse(stored);
-  } catch (e) {
-    return { role: null, email: null };
-  }
-};
-
-export const setActiveSession = (session: UserSession) => {
-  if (typeof window !== "undefined") {
-    localStorage.setItem("her_homenest_session", JSON.stringify(session));
-  }
-};
+export {getActiveSession, setActiveSession} from "./session";
+export type {UserSession} from "./session";

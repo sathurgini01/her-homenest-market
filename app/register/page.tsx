@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { setActiveSession } from "@/lib/mock-data";
+import { setActiveSession } from "@/lib/session";
 
 export default function RegisterPage() {
   const router = useRouter();
@@ -51,7 +51,7 @@ export default function RegisterPage() {
     <div className="min-h-screen bg-paper flex flex-col font-sans text-charcoal">
       <Navbar />
 
-      <main className="max-w-md mx-auto w-full px-4 py-16 flex-1 flex flex-col justify-center">
+      <main id="main-content" className="max-w-md mx-auto w-full px-4 py-16 flex-1 flex flex-col justify-center">
         
         <div className="text-center space-y-2 mb-8">
           <Link href="/" className="font-display text-3xl font-extrabold text-ink inline-block">
@@ -112,8 +112,11 @@ export default function RegisterPage() {
           <form onSubmit={handleRegisterSubmit} className="space-y-4 font-sans text-xs">
             
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Your Full Name</label>
+              <label htmlFor="register-name" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Your Full Name</label>
               <input
+                id="register-name"
+                name="name"
+                autoComplete="name"
                 type="text"
                 required
                 value={name}
@@ -125,8 +128,11 @@ export default function RegisterPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Email Address</label>
+                <label htmlFor="register-email" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Email Address</label>
                 <input
+                  id="register-email"
+                  name="email"
+                  autoComplete="email"
                   type="email"
                   required
                   value={email}
@@ -137,9 +143,13 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Mobile / WhatsApp</label>
+                <label htmlFor="register-phone" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Mobile / WhatsApp</label>
                 <input
-                  type="text"
+                  id="register-phone"
+                  name="phone"
+                  type="tel"
+                  autoComplete="tel"
+                  inputMode="tel"
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
@@ -150,8 +160,11 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Set Password</label>
+              <label htmlFor="register-password" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Set Password</label>
               <input
+                id="register-password"
+                name="password"
+                autoComplete="new-password"
                 type="password"
                 required
                 value={password}

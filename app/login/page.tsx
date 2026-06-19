@@ -61,7 +61,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-paper flex flex-col font-sans text-charcoal">
       <Navbar />
 
-      <main className="max-w-md mx-auto w-full px-4 py-16 flex-1 flex flex-col justify-center">
+      <main id="main-content" className="max-w-md mx-auto w-full px-4 py-16 flex-1 flex flex-col justify-center">
         
         {/* Brand Header */}
         <div className="text-center space-y-2 mb-8">
@@ -144,8 +144,11 @@ export default function LoginPage() {
           <form onSubmit={handleLoginSubmit} className="space-y-4">
             
             <div className="space-y-1">
-              <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Email / Phone</label>
+              <label htmlFor="login-identifier" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Email / Phone</label>
               <input
+                id="login-identifier"
+                name="identifier"
+                autoComplete="username"
                 type="text"
                 required
                 value={email}
@@ -157,10 +160,13 @@ export default function LoginPage() {
 
             <div className="space-y-1">
               <div className="flex justify-between items-center">
-                <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Password</label>
+                <label htmlFor="login-password" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Password</label>
                 <span className="text-[10px] text-charcoal/40 font-mono">Minimum 8 characters</span>
               </div>
               <input
+                id="login-password"
+                name="password"
+                autoComplete="current-password"
                 type="password"
                 required
                 value={password}

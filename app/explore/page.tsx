@@ -102,7 +102,7 @@ function ExploreContent() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1">
+    <main id="main-content" className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-8 flex-1">
       
       {/* Search Header */}
       <div className="mb-8">
@@ -174,11 +174,13 @@ function ExploreContent() {
 
           {/* Search Keywords Input */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono tracking-wider">
+            <label htmlFor="explore-keyword" className="text-xs font-semibold text-charcoal/70 uppercase font-mono tracking-wider">
               Keyword
             </label>
             <div className="relative">
               <input
+                id="explore-keyword"
+                name="search"
                 type="text"
                 placeholder="Search words..."
                 value={searchQuery}
@@ -193,10 +195,12 @@ function ExploreContent() {
 
           {/* Category Dropdown */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono tracking-wider">
+            <label htmlFor="explore-category" className="text-xs font-semibold text-charcoal/70 uppercase font-mono tracking-wider">
               Specialized Service
             </label>
             <select
+              id="explore-category"
+              name="category"
               value={selectedCategory}
               onChange={(e) => setSelectedCategory(e.target.value)}
               className="w-full bg-paper/50 rounded-lg py-2 px-3 text-sm text-charcoal border border-charcoal/15 focus:outline-none focus:border-ink transition-colors cursor-pointer"
@@ -212,10 +216,12 @@ function ExploreContent() {
 
           {/* Area / Neighborhood Dropdown */}
           <div className="space-y-1.5">
-            <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono tracking-wider">
+            <label htmlFor="explore-area" className="text-xs font-semibold text-charcoal/70 uppercase font-mono tracking-wider">
               Colombo Locality
             </label>
             <select
+              id="explore-area"
+              name="area"
               value={selectedArea}
               onChange={(e) => setSelectedArea(e.target.value)}
               className="w-full bg-paper/50 rounded-lg py-2 px-3 text-sm text-charcoal border border-charcoal/15 focus:outline-none focus:border-ink transition-colors cursor-pointer"
@@ -237,6 +243,7 @@ function ExploreContent() {
             <div className="flex gap-1.5">
               {[0, 4, 4.5, 4.8].map((rate) => (
                 <button
+                  type="button"
                   key={rate}
                   onClick={() => setMinRating(rate)}
                   className={`flex-1 py-1 px-2 rounded-md font-mono text-[10px] border transition-all text-center cursor-pointer ${
@@ -255,6 +262,8 @@ function ExploreContent() {
           <div className="pt-4 border-t border-dashed border-charcoal/10">
             <label className="flex items-center gap-2.5 cursor-pointer select-none">
               <input
+                id="available-today"
+                name="availableToday"
                 type="checkbox"
                 checked={onlyAvailableToday}
                 onChange={(e) => setOnlyAvailableToday(e.target.checked)}
@@ -300,7 +309,7 @@ function ExploreContent() {
         </div>
 
       </div>
-    </div>
+    </main>
   );
 }
 

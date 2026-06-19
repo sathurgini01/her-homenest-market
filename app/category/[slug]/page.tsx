@@ -41,7 +41,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
     <div className="min-h-screen bg-paper flex flex-col">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1">
         
         {/* Breadcrumb Navigation */}
         <div className="mb-6 flex items-center gap-1.5 text-xs font-mono text-charcoal/50">

@@ -131,7 +131,7 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-paper flex flex-col font-sans text-charcoal selection:bg-turmeric/30 selection:text-ink">
       <Navbar />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 space-y-8">
+      <main id="main-content" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 space-y-8">
         
         {/* Hub Header */}
         <div className="bg-white p-6 rounded-3xl border-2 border-charcoal/5 shadow-sm flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">

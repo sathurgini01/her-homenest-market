@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 export function VerifiedBadge({ className = "", showText = true }: { className?: string; showText?: boolean }) {

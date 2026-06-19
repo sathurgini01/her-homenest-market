@@ -1,16 +1,12 @@
-"use client";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { ArrowUpRight, Gift, Heart, MapPin, MessageCircle, Search, ShieldCheck, Sparkles, Star } from "lucide-react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { HomemakerCard } from "@/components/HomemakerCard";
 import { VerifiedBadge } from "@/components/VerifiedBadge";
 import { getPublicHomemakers } from "@/lib/mock-data";
-import { Homemaker } from "@/lib/types";
 import {
   CATEGORY_DETAILS,
   categoryToSlug,
@@ -73,42 +69,18 @@ const giftIdeas = [
 ];
 
 export default function HomePage() {
-  const router = useRouter();
-  const [searchQuery, setSearchQuery] = useState("");
-  const [featuredSellers, setFeaturedSellers] = useState<Homemaker[]>([]);
-
-  useEffect(() => {
-    const syncFeatured = () => {
-      setFeaturedSellers(
-        getPublicHomemakers()
-          .filter((homemaker) => homemaker.featured)
-          .slice(0, 6)
-      );
-    };
-    setTimeout(syncFeatured, 0);
-  }, []);
-
-  const handleSearchSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const query = searchQuery.trim();
-    router.push(query ? `/explore?search=${encodeURIComponent(query)}` : "/explore");
-  };
+  const featuredSellers = getPublicHomemakers()
+    .filter((homemaker) => homemaker.featured)
+    .slice(0, 6);
 
   return (
     <div className="flex min-h-screen flex-col bg-paper selection:bg-turmeric/30 selection:text-ink">
       <Navbar />
+      <main id="main-content">
 
       {/* 1. Customer-first hero */}
-      <section
-        className="relative overflow-hidden bg-[#3b1f32] pb-28 pt-14 text-paper sm:pb-32 sm:pt-16"
-        style={{
-          backgroundImage:
-            "linear-gradient(115deg,rgba(43,20,36,.98),rgba(67,31,55,.94) 52%,rgba(83,39,65,.88)),url('/topographic-pattern.svg')",
-          backgroundSize: "cover, 720px 520px",
-          backgroundPosition: "center",
-        }}
-      >
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_78%_35%,rgba(227,162,60,.18),transparent_30%),linear-gradient(to_bottom,transparent_70%,rgba(30,10,25,.38))]" />
+      <section className="hero-shell relative overflow-hidden bg-[#3b1f32] pb-28 pt-14 text-paper sm:pb-32 sm:pt-16">
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,rgba(35,14,29,.4)_0%,rgba(59,31,50,.14)_48%,rgba(59,31,50,.02)_100%),linear-gradient(to_bottom,rgba(59,31,50,.02)_55%,rgba(35,14,29,.42)_100%)]" />
         <div className="relative z-10 mx-auto grid max-w-7xl items-center gap-10 px-4 sm:px-6 lg:grid-cols-12 lg:px-8">
           <div className="space-y-6 lg:col-span-6">
             <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 backdrop-blur-sm">
@@ -134,12 +106,11 @@ export default function HomePage() {
               </p>
             </div>
 
-            <form onSubmit={handleSearchSubmit} className="max-w-xl">
+            <form action="/explore" method="get" role="search" className="max-w-xl">
               <div className="flex items-center rounded-2xl border border-white/15 bg-white p-2 shadow-2xl">
                 <Search className="ml-2 h-5 w-5 shrink-0 text-ink/70" />
                 <input
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
+                  name="search"
                   placeholder="Search food, tailoring, baking, tuition..."
                   className="min-w-0 flex-1 bg-transparent px-3 py-3 text-sm text-charcoal outline-none placeholder:text-charcoal/45"
                   aria-label="Search homemakers and products"
@@ -161,11 +132,12 @@ export default function HomePage() {
             <div className="absolute inset-x-12 bottom-4 h-24 rounded-[50%] bg-black/30 blur-2xl" />
             <div className="hero-portrait-fade absolute inset-y-0 left-1/2 z-10 w-[330px] -translate-x-1/2">
               <Image
-                src="/hero-homemaker-saree-v5.png"
+                src="/hero-homemaker-burgundy-v6.jpg"
                 alt="Sri Lankan woman entrepreneur in an elegant handloom saree presenting handmade gifts"
                 fill
-                priority
                 sizes="330px"
+                quality={78}
+                fetchPriority="high"
                 className="object-cover object-top"
               />
             </div>
@@ -175,6 +147,7 @@ export default function HomePage() {
                 alt="Homemade biryani"
                 width={360}
                 height={270}
+                quality={72}
                 className="aspect-[4/3] w-full rounded-lg object-cover"
               />
               <p className="mt-2 font-display text-sm font-bold text-charcoal">Friday Biryani</p>
@@ -186,6 +159,7 @@ export default function HomePage() {
                 alt="Sri Lankan homemaker stitching a custom saree blouse"
                 width={320}
                 height={240}
+                quality={72}
                 className="aspect-[4/3] w-full rounded-lg object-cover"
               />
               <p className="mt-2 font-display text-sm font-bold text-charcoal">Custom Stitching</p>
@@ -198,6 +172,7 @@ export default function HomePage() {
                 alt="Handmade beaded and brass jewelry by a Colombo woman artisan"
                 width={320}
                 height={240}
+                quality={72}
                 className="aspect-[4/3] w-full rounded-lg object-cover"
               />
               <p className="mt-2 font-display text-sm font-bold text-charcoal">Handmade Jewelry</p>
@@ -210,6 +185,7 @@ export default function HomePage() {
                 alt="Handmade batik fabric handbag and matching pouch"
                 width={320}
                 height={240}
+                quality={72}
                 className="aspect-[4/3] w-full rounded-lg object-cover"
               />
               <p className="mt-2 font-display text-sm font-bold text-charcoal">Batik Handbags</p>
@@ -299,7 +275,7 @@ export default function HomePage() {
       </section>
 
       {/* 3. Popular categories and complete marketplace taxonomy */}
-      <section id="categories" className="relative scroll-mt-24 overflow-hidden border-b border-charcoal/5 py-20">
+      <section id="categories" className="content-auto relative scroll-mt-24 overflow-hidden border-b border-charcoal/5 py-20">
         <div className="pointer-events-none absolute -left-32 top-20 h-80 w-80 rounded-full bg-[#EAD8EE]/45 blur-3xl" />
         <div className="pointer-events-none absolute -right-40 bottom-10 h-96 w-96 rounded-full bg-turmeric/10 blur-3xl" />
 
@@ -406,7 +382,7 @@ export default function HomePage() {
       </section>
 
       {/* 4. Curated handmade gift discovery */}
-      <section className="relative overflow-hidden border-b border-charcoal/5 bg-white py-16 sm:py-20">
+      <section className="content-auto relative overflow-hidden border-b border-charcoal/5 bg-white py-16 sm:py-20">
         <div className="gift-orbit pointer-events-none absolute -left-20 top-20 h-56 w-56 rounded-full bg-[#E8D4ED]/55 blur-3xl" />
         <div className="gift-orbit-delayed pointer-events-none absolute -right-24 bottom-10 h-72 w-72 rounded-full bg-turmeric/15 blur-3xl" />
 
@@ -461,6 +437,7 @@ export default function HomePage() {
                 alt={giftIdeas[0].title}
                 fill
                 sizes="(max-width: 1024px) 100vw, 58vw"
+                quality={76}
                 className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#24101E] via-[#3B1F32]/35 to-transparent" />
@@ -497,6 +474,7 @@ export default function HomePage() {
                       alt={idea.title}
                       fill
                       sizes={index === 0 ? "(max-width: 1024px) 100vw, 42vw" : "(max-width: 640px) 100vw, 21vw"}
+                      quality={74}
                       className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                     />
                     <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1.5 font-mono text-[9px] font-bold uppercase tracking-wider text-ink shadow-sm backdrop-blur">
@@ -535,7 +513,7 @@ export default function HomePage() {
       </section>
 
       {/* 5. Marketplace proof */}
-      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="content-auto mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="mb-8 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-clay">
@@ -567,7 +545,7 @@ export default function HomePage() {
       </section>
 
       {/* 6. How it works */}
-      <section className="relative overflow-hidden border-y border-[#E7D9EA] bg-[linear-gradient(180deg,#FFFFFF_0%,#FCF8FD_100%)] py-20">
+      <section className="content-auto relative overflow-hidden border-y border-[#E7D9EA] bg-[linear-gradient(180deg,#FFFFFF_0%,#FCF8FD_100%)] py-20">
         <div className="how-glow pointer-events-none absolute left-1/2 top-12 h-64 w-64 -translate-x-1/2 rounded-full bg-[#EAD8EE]/55 blur-3xl" />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto mb-14 max-w-2xl text-center">
@@ -677,7 +655,7 @@ export default function HomePage() {
       </section>
 
       {/* 7. Why choose us */}
-      <section className="why-choose-section relative overflow-hidden bg-[#F8F0FA] py-20">
+      <section className="content-auto why-choose-section relative overflow-hidden bg-[#F8F0FA] py-20">
         <div className="why-choose-orb pointer-events-none absolute -left-20 top-20 h-72 w-72 rounded-full bg-white/80 blur-3xl" />
         <div className="why-choose-orb-delayed pointer-events-none absolute -right-24 bottom-0 h-80 w-80 rounded-full bg-turmeric/15 blur-3xl" />
 
@@ -716,6 +694,7 @@ export default function HomePage() {
                   alt="Handmade bracelet presented in a gift box"
                   fill
                   sizes="(max-width: 1024px) 100vw, 34vw"
+                  quality={76}
                   className="object-cover transition-transform duration-700 hover:scale-105"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
@@ -734,6 +713,7 @@ export default function HomePage() {
                   alt="Floral hand embroidery"
                   fill
                   sizes="128px"
+                  quality={70}
                   className="object-cover"
                 />
               </div>
@@ -835,7 +815,7 @@ export default function HomePage() {
       </section>
 
       {/* 8. Mission */}
-      <section className="py-16">
+      <section className="content-auto py-16">
         <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
           <div className="rounded-3xl border border-charcoal/5 bg-white p-8 text-center shadow-sm sm:p-12">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-turmeric">
@@ -855,7 +835,7 @@ export default function HomePage() {
       </section>
 
       {/* 9. Reviews */}
-      <section className="border-y border-charcoal/5 bg-white py-16">
+      <section className="content-auto border-y border-charcoal/5 bg-white py-16">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 text-center">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-clay">Customer reviews</span>
@@ -881,7 +861,7 @@ export default function HomePage() {
       </section>
 
       {/* 10. Seller recruitment CTA */}
-      <section className="mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <section className="content-auto mx-auto w-full max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="relative overflow-hidden rounded-3xl border-2 border-dashed border-turmeric/40 bg-ink p-8 text-paper shadow-xl sm:p-12">
           <div className="relative z-10 max-w-3xl">
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-turmeric">
@@ -913,6 +893,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      </main>
       <Footer />
     </div>
   );

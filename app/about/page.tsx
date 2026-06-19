@@ -13,7 +13,7 @@ export default function AboutPage() {
     <div className="min-h-screen bg-paper flex flex-col selection:bg-turmeric/30 selection:text-ink">
       <Navbar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 space-y-12">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-1 space-y-12">
         
         {/* Core Header */}
         <div className="text-center space-y-4">

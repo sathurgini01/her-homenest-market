@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 
 export function RatingStars({ rating, max = 5, size = 4 }: { rating: number; max?: number; size?: number }) {

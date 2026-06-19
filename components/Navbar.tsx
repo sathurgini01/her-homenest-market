@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { getActiveSession, setActiveSession, UserSession } from "@/lib/mock-data";
+import { getActiveSession, setActiveSession, UserSession } from "@/lib/session";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -71,7 +71,7 @@ export function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-50 border-b border-[#D8BED8] bg-[#FAF2FC]/95 text-ink shadow-[0_4px_18px_rgba(59,31,50,0.08)] backdrop-blur-md">
+    <nav aria-label="Primary navigation" className="sticky top-0 z-50 border-b border-[#D8BED8] bg-[#FAF2FC]/95 text-ink shadow-[0_4px_18px_rgba(59,31,50,0.08)] md:backdrop-blur-md">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between">
           <Link href="/" className="group flex items-center gap-3" aria-label="Her HomeNest Market home">
@@ -92,6 +92,7 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
+                aria-current={isActive(link.href) ? "page" : undefined}
                 className={`rounded-xl px-3.5 py-2.5 text-[15px] font-semibold tracking-[-0.01em] transition-all ${
                   isActive(link.href)
                     ? "bg-white text-ink shadow-sm ring-1 ring-[#E7D9EA]"
@@ -114,7 +115,7 @@ export function Navbar() {
                     Dashboard
                   </Link>
                 )}
-                <button onClick={handleLogout} className="rounded-lg px-3 py-2 text-xs font-bold text-charcoal/65 hover:bg-paper">
+                <button type="button" onClick={handleLogout} className="rounded-lg px-3 py-2 text-xs font-bold text-charcoal/65 hover:bg-paper">
                   Logout
                 </button>
               </>
@@ -131,10 +132,12 @@ export function Navbar() {
           </div>
 
           <button
+            type="button"
             onClick={() => setMobileMenuOpen((open) => !open)}
             className="rounded-lg p-2 text-ink hover:bg-paper md:hidden"
             aria-label="Toggle navigation"
             aria-expanded={mobileMenuOpen}
+            aria-controls="mobile-navigation"
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {mobileMenuOpen ? (
@@ -148,13 +151,14 @@ export function Navbar() {
       </div>
 
       {mobileMenuOpen && (
-        <div className="border-t border-[#D8BED8] bg-[#FAF2FC] px-4 py-4 shadow-inner md:hidden">
+        <div id="mobile-navigation" className="border-t border-[#D8BED8] bg-[#FAF2FC] px-4 py-4 shadow-inner md:hidden">
           <div className="space-y-1">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
+                aria-current={isActive(link.href) ? "page" : undefined}
                 className={`block rounded-xl px-3.5 py-3 text-[15px] font-semibold transition-colors ${
                   isActive(link.href) ? "bg-white text-ink shadow-sm" : "text-charcoal/75 hover:bg-white/70"
                 }`}
@@ -172,6 +176,7 @@ export function Navbar() {
                   </Link>
                 )}
                 <button
+                  type="button"
                   onClick={handleLogout}
                   className={`rounded-lg border border-ink/15 px-4 py-2.5 text-xs font-bold uppercase text-ink ${
                     session.role === "Customer" ? "col-span-2" : ""

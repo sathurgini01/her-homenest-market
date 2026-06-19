@@ -25,7 +25,7 @@ export default function ContactPage() {
     <div className="min-h-screen bg-paper flex flex-col font-sans text-charcoal">
       <Navbar />
 
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-1 space-y-12">
+      <main id="main-content" className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-1 space-y-12">
         <div className="text-center space-y-3">
           <span className="font-mono text-xs text-clay font-bold uppercase tracking-widest block">Colombo Desk</span>
           <h1 className="font-display text-4xl sm:text-5xl font-semibold tracking-tight text-ink">
@@ -87,8 +87,11 @@ export default function ContactPage() {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Full Name</label>
+                <label htmlFor="contact-name" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Full Name</label>
                 <input
+                  id="contact-name"
+                  name="name"
+                  autoComplete="name"
                   type="text"
                   required
                   placeholder="e.g. Kumari Perera"
@@ -99,8 +102,11 @@ export default function ContactPage() {
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Email Address</label>
+                <label htmlFor="contact-email" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Email Address</label>
                 <input
+                  id="contact-email"
+                  name="email"
+                  autoComplete="email"
                   type="email"
                   required
                   placeholder="e.g. kumari@gmail.com"
@@ -112,8 +118,10 @@ export default function ContactPage() {
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Message Notice</label>
+              <label htmlFor="contact-message" className="text-xs font-semibold text-charcoal/70 uppercase font-mono">Message Notice</label>
               <textarea
+                id="contact-message"
+                name="message"
                 rows={5}
                 required
                 placeholder="Let us know what details or assistance you are seeking..."

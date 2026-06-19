@@ -86,7 +86,7 @@ export default function OnboardingPage() {
     <div className="min-h-screen bg-paper flex flex-col font-sans text-charcoal">
       <Navbar />
 
-      <main className="max-w-xl mx-auto w-full px-4 py-12 flex-1">
+      <main id="main-content" className="max-w-xl mx-auto w-full px-4 py-12 flex-1">
         <div className="bg-white p-8 rounded-3xl border-2 border-charcoal/5 shadow-md space-y-6">
           
           <div className="text-center space-y-1">
